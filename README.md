@@ -22,8 +22,12 @@ HeyBuddyChat은 익명성을 보장하는 1 : 1 랜덤 채팅 서비스입니다
 - 그룹채팅
 
 ## 📋 프로젝트관련 문서
+- [⚙️ Notion](https://www.notion.so/HeyBuddyChat-17cb3a2b40a880dea0b1dbaca904bea8)
+  
 - [⚙️ 요구사항 명세서](https://docs.google.com/spreadsheets/d/1ZqMf6lAgDcp9zA3Utw_zNsInkU16-qg06S7pnyWVMJw/preview?gid=0#gid=0)
+  
 - [⚙️ 와이어 프레임](https://www.figma.com/design/Rtv4rCW2buUekJj14NwFZc/HeyBuddyChat?node-id=0-1&p=f&t=t4zykxyJrPcS1oGP-0)
+  
 - [⚙️ 화면 설계서](https://www.figma.com/design/Rtv4rCW2buUekJj14NwFZc/HeyBuddyChat?node-id=6-158&p=f&t=t4zykxyJrPcS1oGP-0)
 
 ## 💪 기술스택
