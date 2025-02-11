@@ -1,12 +1,16 @@
 @import "tailwindcss";
 /* theme 적용 (dark,light) class */
 @custom-variant dark (&:where(.dark, .dark *));
-/* body: font-famliy, background-color */
+/* body: font-famliy, font-smoothing, background-color*/
 
 @theme {
-/* 글자크기, 글자굵기, 글자간격, 줄간격 */
+  /* 글자크기, 글자굵기, 글자간격, 줄간격 */
+  --text-service: 1rem;
+  --text-service--font-weight: 600;
+  --text-service--letter-spacing: 0.125rem;
+  --text-service--line-height: 1.5rem;
 
-/* 서비스 색상 */
+  /* 서비스 색상 */
   --color-main: oklch(60.7% 0.213 262.2);
   --color-sub: oklch(69.7% 0.16 258.2);
   --color-white: oklch(98.5% 0 0);
@@ -21,7 +25,7 @@
   --color-dark2: oklch(20.7% 0.01 285.5);
   --color-dark3: oklch(27.1% 0.011 285.6 / 0.2);
   --color-linear: oklch(70.2% 0.025 285.7);
-/*
+  /*
     [반응형]
     Html: 기본값 16px 기준
     sm: 40rem(640px) 이상 ~ max-sm: 이하
@@ -31,8 +35,8 @@
     2xl: 96rem(1536px) 이상 ~ max-2xl: 이하
 */
 
-/* shadow */
-/* container */
-/* spacing */
-/* animation */
+  /* shadow */
+  /* container */
+  /* spacing */
+  /* animation */
 }
