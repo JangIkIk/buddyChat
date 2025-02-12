@@ -1,0 +1,65 @@
+/* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
+@import "tailwindcss";
+/* theme 적용 (dark,light) class */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply font-mono antialiased bg-light1 dark:bg-dark1;
+  }
+}
+
+@theme {
+  /* 글자크기, 글자굵기, 글자간격, 줄간격 */
+  --text-service: 1rem;
+  --text-service--font-weight: 600;
+  --text-service--letter-spacing: 0.125rem;
+  --text-service--line-height: 1.5rem;
+
+  /* 서비스 색상 */
+  --color-main: oklch(60.7% 0.213 262.2);
+  --color-sub: oklch(69.7% 0.16 258.2);
+  --color-white: oklch(98.5% 0 0);
+  --color-gray: oklch(70.2% 0.025 285.7);
+  --color-black: oklch(13.7% 0.009 285.1);
+  --color-green: oklch(78.5% 0.216 149.6);
+  --color-red: oklch(62.2% 0.242 29.8);
+  --color-light1: oklch(98.5% 0 0);
+  --color-light2: oklch(91.7% 0.007 286.3);
+  --color-light3: oklch(70.2% 0.025 285.7 / 0.2);
+  --color-dark1: oklch(17% 0.006 285.7);
+  --color-dark2: oklch(20.7% 0.01 285.5);
+  --color-dark3: oklch(27.1% 0.011 285.6 / 0.2);
+  --color-linear: oklch(70.2% 0.025 285.7);
+  /*
+    [반응형]
+    Html: 기본값 16px 기준
+    sm: 40rem(640px) 이상 ~ max-sm: 이하
+    md: 48rem(768px) 이상 ~ max-md: 이하
+    lg: 64rem(1024px) 이상 ~ max-lg: 이하
+    xl: 80rem(1280px) 이상 ~ max-xl: 이하
+    2xl: 96rem(1536px) 이상 ~ max-2xl: 이하
+*/
+
+  /* 
+    [container]
+    @3xs	16rem (256px)	@container (width >= 16rem) { … }
+    @2xs	18rem (288px)	@container (width >= 18rem) { … }
+    @xs	    20rem (320px)	@container (width >= 20rem) { … }
+    @sm	    24rem (384px)	@container (width >= 24rem) { … }
+    @md	    28rem (448px)	@container (width >= 28rem) { … }
+    @lg	    32rem (512px)	@container (width >= 32rem) { … }
+    @xl	    36rem (576px)	@container (width >= 36rem) { … }
+    @2xl	42rem (672px)	@container (width >= 42rem) { … }
+    @3xl	48rem (768px)	@container (width >= 48rem) { … }
+    @4xl	56rem (896px)	@container (width >= 56rem) { … }
+    @5xl	64rem (1024px)	@container (width >= 64rem) { … }
+    @6xl	72rem (1152px)	@container (width >= 72rem) { … }
+    @7xl	80rem (1280px)	@container (width >= 80rem) { … }
+
+   */
+
+   /* --spacing: 0.25rem(4px); */
+   /* shadow */
+  /* animation */
+}
