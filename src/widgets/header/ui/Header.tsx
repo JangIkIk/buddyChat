@@ -5,6 +5,9 @@ import Menu from "@/shared/asset/menu.svg?react";
 
 const Header = () => {
   const [modalToggle, setModalToggle] = useToggle();
+  
+
+
 
   return (
     <div className="tw:@container tw:text-base">
@@ -19,7 +22,7 @@ const Header = () => {
         {/* Mobile Button */}
         <Menu
           onClick={setModalToggle}
-          className="tw:w-6 tw:h-6 tw:fill-service-gray tw:cursor-pointer tw:hover:fill-service-secondary tw:@3xl:hidden"
+          className={`tw:w-6 tw:h-6 ${modalToggle ? "tw:fill-service-secondary" : "tw:fill-service-gray"} tw:cursor-pointer tw:hover:fill-service-secondary tw:@3xl:hidden`}
         />
 
         {/* Tablet & DeskTop */}
