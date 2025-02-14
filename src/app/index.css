@@ -91,9 +91,3 @@
   }
 }
 
-@utility theme-text {
-  color: var(--color-service-black);
-  @variant dark {
-    color: var(--color-service-white);
-  }
-}
