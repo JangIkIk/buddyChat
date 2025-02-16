@@ -2,7 +2,7 @@ import { useMediaQuery } from "react-responsive";
 
 export const useResponsive = ( props: PropsType ): boolean => {
     const { device, callback } = props;
-    
+
     const width = {
         mobile: {maxWidth: 767},
         tablet: {minWidth: 768},
