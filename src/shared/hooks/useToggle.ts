@@ -5,5 +5,8 @@ export const useToggle = ( initialValue: boolean = false ) => {
 
     const changeToggle = () => setToggle(!toggle);
 
-    return [ toggle, changeToggle ] as const;
+    const optionalToggle = ( state: boolean ) => setToggle(state);
+
+
+    return [ toggle, changeToggle, optionalToggle ] as const;
 }
