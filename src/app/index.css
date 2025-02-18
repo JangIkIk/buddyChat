@@ -1,36 +1,27 @@
-/* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
-@import "tailwindcss";
-/* theme 적용 (dark,light) class */
+@import "tailwindcss" prefix(tw);
+@import "./variable.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer base {
-  body {
-    @apply font-mono antialiased bg-light1 dark:bg-dark1;
-  }
-}
 
+/* css속성에서 theme변수를 참조할수 없는문제로 root변수의 값을 다시 할당 */
 @theme {
-  /* 글자크기, 글자굵기, 글자간격, 줄간격 */
-  --text-service: 1rem;
-  --text-service--font-weight: 600;
-  --text-service--letter-spacing: 0.125rem;
-  --text-service--line-height: 1.5rem;
-
   /* 서비스 색상 */
-  --color-main: oklch(60.7% 0.213 262.2);
-  --color-sub: oklch(69.7% 0.16 258.2);
-  --color-white: oklch(98.5% 0 0);
-  --color-gray: oklch(70.2% 0.025 285.7);
-  --color-black: oklch(13.7% 0.009 285.1);
-  --color-green: oklch(78.5% 0.216 149.6);
-  --color-red: oklch(62.2% 0.242 29.8);
-  --color-light1: oklch(98.5% 0 0);
-  --color-light2: oklch(91.7% 0.007 286.3);
-  --color-light3: oklch(70.2% 0.025 285.7 / 0.2);
-  --color-dark1: oklch(17% 0.006 285.7);
-  --color-dark2: oklch(20.7% 0.01 285.5);
-  --color-dark3: oklch(27.1% 0.011 285.6 / 0.2);
-  --color-linear: oklch(70.2% 0.025 285.7);
+  --color-service-primary: var(--color-service-primary);
+  --color-service-secondary: var(--color-service-secondary);
+  --color-service-white: var(--color-service-white);
+  --color-service-gray: var(--color-service-gray);
+  --color-service-black: var(--color-service-black);
+  --color-service-green: var(--color-service-green);
+  --color-service-red: var(--color-service-red);
+
+  --color-service-linear1: var(--color-service-linear1);
+
+  --color-service-light1: var(--color-service-light1);
+  --color-service-light2: var(--color-service-light2);
+  --color-service-light3: var(--color-service-light3);
+  --color-service-dark1: var(--color-service-dark1);
+  --color-service-dark2: var(--color-service-dark2);
+  --color-service-dark3: var(--color-service-dark3);
   /*
     [반응형]
     Html: 기본값 16px 기준
@@ -59,7 +50,50 @@
 
    */
 
-   /* --spacing: 0.25rem(4px); */
-   /* shadow */
+  /* 글자크기, 글자굵기, 글자간격, 줄간격 */
+  /* --spacing: 0.25rem(4px); */
+  /* shadow */
   /* animation */
+  /* https://github.com/tailwindlabs/tailwindcss/issues/16568 */
+  
 }
+
+@layer base {
+  body {
+    @apply tw:font-mono tw:antialiased;
+    background-color: var(--color-service-light1);
+    @variant dark{
+      background-color: var(--color-service-dark1);
+    }
+  }
+}
+
+@utility c-bg-theme-strong{
+  background-color: var(--color-service-light1);
+    @variant dark {
+      background-color: var(--color-service-dark1);
+    }
+}
+@utility c-bg-theme-normal{
+  background-color: var(--color-service-light2);
+    @variant dark {
+      background-color: var(--color-service-dark2);
+    }
+}
+@utility c-bg-theme-weak{
+  background-color: var(--color-service-light3);
+    @variant dark {
+      background-color: var(--color-service-dark3);
+    }
+}
+@utility c-text-theme-base{
+  color: var(--color-service-black);
+    @variant dark {
+      color: var(--color-service-white);
+    }
+}
+
+@utility c-shadow-bt{
+  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+}
+

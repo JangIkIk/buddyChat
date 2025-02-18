@@ -1,9 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BaseLayout } from './layout/baseLayout';
+
 function App() {
 
   return (
-    <>
-      <div>app</div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<BaseLayout/>}>
+        <Route index element={<div>홈</div>}/>
+        <Route path="/random" element={<div>랜덤</div>}/>
+        <Route path="/group" element={<div>그룹</div>}/>
+        <Route path="/info" element={<div>정보</div>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
