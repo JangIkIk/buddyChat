@@ -22,7 +22,7 @@ const Header = () => {
       <div className="tw:max-w-320 tw:h-full tw:m-auto tw:px-4 tw:flex tw:justify-between tw:items-center">
         {/* logo */}
         <div className="tw:flex tw:items-center tw:gap-1">
-          <Logo className="tw:w-8 tw:h-8 tw:fill-service-primary tw:cursor-pointer"/>
+          <Logo className="tw:w-8 tw:h-8 tw:fill-service-primary tw:cursor-pointer" />
           <span
             className={cn(
               "tw:text-service-primary tw:text-base tw:font-bold",
@@ -33,9 +33,8 @@ const Header = () => {
           </span>
         </div>
 
-        {isMobile ? (
-          // Mobile
-          <>
+        <nav>
+          {isMobile && (
             <Menu
               onClick={setModalToggle}
               className={cn(
@@ -43,23 +42,21 @@ const Header = () => {
                 { "tw:fill-service-secondary": modalToggle }
               )}
             />
-            <div
-              className={cn(
-                "tw:hidden tw:flex-col tw:gap-3 tw:shadow-down tw:theme-shade1 tw:absolute tw:left-0 tw:right-0 tw:bottom-0 tw:translate-y-full",
-                {
-                  "tw:flex": modalToggle,
-                }
-              )}
-            >
-              <MenuList />
-            </div>
-          </>
-        ) : (
-          // Tablet & DeskTop
-          <div className="tw:flex tw:grow tw:justify-end tw:gap-3">
+          )}
+          <div
+            className={cn("tw:flex tw:gap-3",
+            //Mobile
+              {
+                "tw:hidden tw:flex-col tw:absolute tw:inset-x-0 tw:c-bg-theme-strong tw:top-full":isMobile,
+                "tw:flex": modalToggle
+              },           
+            //Tablet & Desktop
+              {"tw:grow tw:justify-end": !isMobile },
+            )}
+          >
             <MenuList />
           </div>
-        )}
+        </nav>
       </div>
     </header>
   );
