@@ -1,44 +1,9 @@
-/* https://tailwindcss.com/docs/theme#default-theme-variable-reference */
-/* @custom-variant: 특정 접두사(dark:)를 생성 */
-/* @variant: 특정 변형(ex: hover: dark: ...)을 지원하도록 만드는 키워드이며, class내에서 작성해야함*/
-/* prefix: class에 접두사를 붙임 (tallwindcss불러온거는 tw로 부르겠다는의미)*/
 @import "tailwindcss" prefix(tw);
-/* theme 적용 (dark,light) class */
+@import "./variable.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --color-service-primary: oklch(60.7% 0.213 262.2);
-  --color-service-secondary: oklch(69.7% 0.16 258.2);
-  --color-service-white: oklch(98.5% 0 0);
-  --color-service-gray: oklch(70.2% 0.025 285.7);
-  --color-service-black: oklch(13.7% 0.009 285.1);
-  --color-service-green: oklch(78.5% 0.216 149.6);
-  --color-service-red: oklch(62.2% 0.242 29.8);
 
-  --color-linear1: oklch(70.2% 0.025 285.7);
-
-  --theme-light1: oklch(98.5% 0 0);
-  --theme-light2: oklch(91.7% 0.007 286.3);
-  --theme-light3: oklch(70.2% 0.025 285.7 / 0.2);
-
-  --theme-dark1: oklch(17% 0.006 285.7);
-  --theme-dark2: oklch(20.7% 0.01 285.5);
-  --theme-dark3: oklch(27.1% 0.011 285.6 / 0.2);
-}
-
-@layer base {
-  body {
-    @apply tw:font-mono tw:antialiased;
-
-    background-color: var(--theme-light1);
-    color: var(--color-service-black);
-    @variant dark {
-      background-color: var(--theme-dark1);
-      color: var(--color-service-white);
-    }
-  }
-}
-
+/* css속성에서 theme변수를 참조할수 없는문제로 root변수의 값을 다시 할당 */
 @theme {
   /* 서비스 색상 */
   --color-service-primary: var(--color-service-primary);
@@ -48,8 +13,15 @@
   --color-service-black: var(--color-service-black);
   --color-service-green: var(--color-service-green);
   --color-service-red: var(--color-service-red);
-  --color-linear1: var(--color-linear1);
 
+  --color-service-linear1: var(--color-service-linear1);
+
+  --color-service-light1: var(--color-service-light1);
+  --color-service-light2: var(--color-service-light2);
+  --color-service-light3: var(--color-service-light3);
+  --color-service-dark1: var(--color-service-dark1);
+  --color-service-dark2: var(--color-service-dark2);
+  --color-service-dark3: var(--color-service-dark3);
   /*
     [반응형]
     Html: 기본값 16px 기준
@@ -82,12 +54,46 @@
   /* --spacing: 0.25rem(4px); */
   /* shadow */
   /* animation */
+  /* https://github.com/tailwindlabs/tailwindcss/issues/16568 */
+  
 }
 
-@utility theme-shade1 {
-  background-color: var(--theme-light1);
-  @variant dark {
-    background-color: var(--theme-dark1);
+@layer base {
+  body {
+    @apply tw:font-mono tw:antialiased;
+    background-color: var(--color-service-light1);
+    @variant dark{
+      background-color: var(--color-service-dark1);
+    }
   }
+}
+
+@utility c-bg-theme-strong{
+  background-color: var(--color-service-light1);
+    @variant dark {
+      background-color: var(--color-service-dark1);
+    }
+}
+@utility c-bg-theme-normal{
+  background-color: var(--color-service-light2);
+    @variant dark {
+      background-color: var(--color-service-dark2);
+    }
+}
+@utility c-bg-theme-weak{
+  background-color: var(--color-service-light3);
+    @variant dark {
+      background-color: var(--color-service-dark3);
+    }
+}
+@utility c-text-theme-base{
+  color: var(--color-service-black);
+    @variant dark {
+      color: var(--color-service-white);
+    }
+}
+
+@utility c-shadow-bt{
+  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
 }
 
