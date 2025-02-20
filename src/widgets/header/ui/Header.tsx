@@ -18,7 +18,7 @@ const Header = () => {
   });
 
   return (
-    <header className="tw:@container tw:text-shadow-lg tw:c-shadow-bt tw:fixed tw:w-full tw:h-15 tw:c-bg-theme-strong">
+    <div className="tw:@container tw:text-shadow-lg tw:c-shadow-bt tw:fixed tw:w-full tw:h-12.5 tw:c-bg-theme-strong">
       <div className="tw:max-w-320 tw:h-full tw:m-auto tw:px-4 tw:flex tw:justify-between tw:items-center">
         {/* logo */}
         <div className="tw:flex tw:items-center tw:gap-1">
@@ -58,7 +58,7 @@ const Header = () => {
           </div>
         </nav>
       </div>
-    </header>
+    </div>
   );
 };
 
