@@ -3,11 +3,11 @@ import { Outlet } from "react-router-dom";
 
 export const BaseLayout = () => {
   return (
-    <div className="tw:flex tw:flex-col tw:h-screen">
-      <header className="tw:h-12.5">
+    <div className="tw:flex tw:flex-col">
+      <header className="tw:h-(--header-h-base)">
         <Header />
       </header>
-       <main className="tw:grow tw:pt-12.5">
+       <main className="tw:grow tw:h-[calc(100vh-var(--header-h-base))]">
         <Outlet />
       </main>
     </div>
