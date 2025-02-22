@@ -2,7 +2,6 @@
 @import "./variable.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 /* css속성에서 theme변수를 참조할수 없는문제로 root변수의 값을 다시 할당 */
 @theme {
   /* 서비스 색상 */
@@ -55,45 +54,60 @@
   /* shadow */
   /* animation */
   /* https://github.com/tailwindlabs/tailwindcss/issues/16568 */
-  
 }
 
 @layer base {
   body {
     @apply tw:font-mono tw:antialiased;
     background-color: var(--color-service-light1);
-    @variant dark{
+    @variant dark {
       background-color: var(--color-service-dark1);
     }
   }
 }
 
-@utility c-bg-theme-strong{
+@utility c-bg-theme-strong {
   background-color: var(--color-service-light1);
-    @variant dark {
-      background-color: var(--color-service-dark1);
-    }
+  @variant dark {
+    background-color: var(--color-service-dark1);
+  }
 }
-@utility c-bg-theme-normal{
+@utility c-bg-theme-normal {
   background-color: var(--color-service-light2);
-    @variant dark {
-      background-color: var(--color-service-dark2);
-    }
+  @variant dark {
+    background-color: var(--color-service-dark2);
+  }
 }
-@utility c-bg-theme-weak{
+@utility c-bg-theme-weak {
   background-color: var(--color-service-light3);
-    @variant dark {
-      background-color: var(--color-service-dark3);
-    }
+  @variant dark {
+    background-color: var(--color-service-dark3);
+  }
 }
-@utility c-text-theme-base{
+@utility c-text-theme-base {
   color: var(--color-service-black);
-    @variant dark {
-      color: var(--color-service-white);
-    }
+  @variant dark {
+    color: var(--color-service-white);
+  }
 }
 
-@utility c-shadow-bt{
-  box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+@utility c-shadow-bt {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+@utility c-linear-base {
+  background: linear-gradient(
+    180deg,
+    var(--color-service-primary) 00%,
+    var(--color-service-light1) 30%,
+    var(--color-service-light1) 100%
+  );
+  @variant dark {
+    background: linear-gradient(
+    180deg,
+    var(--color-service-primary) 00%,
+    var(--color-service-dark1) 30%,
+    var(--color-service-dark1) 100%
+  );
+  }
+}
