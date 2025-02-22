@@ -1,5 +1,6 @@
 
 :root{
+
     --color-service-primary: oklch(60.7% 0.213 262.2);
     --color-service-secondary: oklch(69.7% 0.16 258.2);
     --color-service-white: oklch(98.5% 0 0);
@@ -16,4 +17,6 @@
     --color-service-dark1: oklch(17% 0.006 285.7);
     --color-service-dark2: oklch(20.7% 0.01 285.5);
     --color-service-dark3: oklch(27.1% 0.011 285.6 / 0.2);
+
+    --header-h-base: 3.125rem;
   }
