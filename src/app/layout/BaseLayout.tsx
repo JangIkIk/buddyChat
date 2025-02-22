@@ -7,7 +7,7 @@ export const BaseLayout = () => {
       <header className="tw:h-12.5">
         <Header />
       </header>
-       <main className="tw:grow">
+       <main className="tw:grow tw:pt-12.5">
         <Outlet />
       </main>
     </div>
