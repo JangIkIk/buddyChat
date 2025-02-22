@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BaseLayout } from './layout/BaseLayout';
 import { Home } from "@/pages/home";
+import { Random } from '@/pages/random';
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
       <Routes>
         <Route element={<BaseLayout/>}>
         <Route index element={<Home/>}/>
-        <Route path="/random" element={<div>랜덤</div>}/>
+        <Route path="/random" element={<Random/>}/>
         <Route path="/group" element={<div>그룹</div>}/>
         <Route path="/info" element={<div>정보</div>}/>
         </Route>
