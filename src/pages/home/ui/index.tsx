@@ -1,4 +1,4 @@
-export const Home = () => {
+const Home = () => {
   return (
     <div className="tw:snap-y tw:h-full tw:snap-mandatory tw:overflow-y-scroll tw:@container tw:c-text-theme-base tw:text-base">
 
@@ -52,3 +52,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
