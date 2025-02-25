@@ -1,6 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=3578FF&height=150&section=footer&text=HeyBuddyChat&fontAlign=50&fontAlignY=75&fontColor=F5F8FF&fontSize=35&descAlign=92&descAlignY=7&descSize=102)
+![header](https://capsule-render.vercel.app/api?type=waving&color=3578FF&height=150&section=footer&text=BuddyChat&fontAlign=50&fontAlignY=75&fontColor=F5F8FF&fontSize=35&descAlign=92&descAlignY=7&descSize=102)
 
-HeyBuddyChat은 익명성을 보장하는 1 : 1 랜덤 채팅 서비스입니다.\
+BuddyChat은 익명성을 보장하는 1 : 1 랜덤 채팅 서비스입니다.\
 가벼운 얘기를 주고 받을수 있으며, 원하는 대화상대를 단순한 클릭만으로도 찾을 수 있습니다\
 또한 1 : 1 채팅이 부담스러울수도 있기에 그룹채팅을 통하여 다수와 다양한 대화주제로 얘기할수 있도록 설계되었습니다.
 
