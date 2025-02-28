@@ -111,3 +111,13 @@
   );
   }
 }
+
+/* 
+https://github.com/tailwindlabs/tailwindcss/discussions/8483
+접두사에 인식되지않는 문제로 인해 기존 유틸클래스를 재정의
+ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg); /* 360도 회전 */
+  }
+}
