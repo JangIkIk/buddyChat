@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import { text } from "../text";
 import { cn } from "@/shared/lib/cn";
+import { Button } from "@/shared/ui/Button";
 
 const Home = () => {
-  
   return (
     <div
       className={cn(
@@ -23,9 +24,11 @@ const Home = () => {
           </span>
           {text.serviceInfo.description}
         </p>
-        <button className="tw:bg-service-primary tw:text-service-white tw:py-2 tw:px-5 tw:rounded-lg">
-          랜덤채팅 시작하기
-        </button>
+        <Link to={"/random"}>
+          <Button intent={"select"} size={"lg"} className={cn("tw:max-sm:text-sm")}>
+            랜덤채팅 시작하기
+          </Button>
+        </Link>
       </section>
 
       {/* section2 = 백엔드 데이터 연결*/}
@@ -44,16 +47,12 @@ const Home = () => {
       </section>
 
       {/* section3 = 백엔드 데이터 연결 */}
-      <section
-        className="tw:snap-always tw:p-4 tw:snap-start tw:h-full tw:px-4 tw:max-w-[1024px] tw:m-auto"
-      >
+      <section className="tw:snap-always tw:p-4 tw:snap-start tw:h-full tw:px-4 tw:max-w-[1024px] tw:m-auto">
         <h2 className="tw:font-bold tw:text-xl">새로운소식</h2>
         <ul className="tw:mt-2 tw:flex tw:flex-col tw:gap-5">
           <li className="tw:p-4 tw:flex tw:flex-col tw:gap-4 tw:c-shadow-bt tw:rounded-lg tw:c-bg-theme-strong">
             <div className="tw:flex tw:items-center tw:justify-between">
-              <span className="tw:font-bold ">
-                2025-03-01
-              </span>
+              <span className="tw:font-bold ">2025-03-01</span>
               <span
                 className={cn(
                   "tw:text-sm tw:text-service-gray ",
@@ -64,9 +63,14 @@ const Home = () => {
               </span>
             </div>
             <details className="tw:cursor-pointer tw:duration-[0.5s] tw:transition-[max-height] tw:max-h-10 tw:open:max-h-100 tw:overflow-hidden">
-              <summary className="tw:hover:text-service-primary tw:marker:text-service-primary">랜덤채팅 & 그룹채팅이 가능해요!</summary>
+              <summary className="tw:hover:text-service-primary tw:marker:text-service-primary">
+                랜덤채팅 & 그룹채팅이 가능해요!
+              </summary>
               <p className="tw:overflow-y-scroll tw:max-h-100 tw:p-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque animi porro cum minus optio consectetur ducimus, nesciunt, aliquid perspiciatis ipsam in libero. Enim delectus quidem veniam temporibus dolore voluptas nam.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+                animi porro cum minus optio consectetur ducimus, nesciunt,
+                aliquid perspiciatis ipsam in libero. Enim delectus quidem
+                veniam temporibus dolore voluptas nam.
               </p>
             </details>
           </li>
