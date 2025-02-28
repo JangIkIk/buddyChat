@@ -20,11 +20,13 @@ const Match = ( props: {_setChatStart: () => void}) => {
   }
 
   useEffect(()=>{
-    setTimeout(()=>{
-      _setTempSocket(false);
-      _setTempFail(true)
-    },2000)
-  },[])
+    if(_tempSocket){
+      setTimeout(()=>{
+        _setTempSocket(false);
+        _setTempFail(true)
+      },2000)
+    }
+  },[_tempSocket])
   // temp___________________________________
 
   return (
