@@ -25,7 +25,7 @@ const Home = () => {
           {text.serviceInfo.description}
         </p>
         <Link to={"/random"}>
-          <Button intent={"select"} size={"lg"}>
+          <Button intent={"select"} size={"lg"} className={cn("tw:max-sm:text-sm")}>
             랜덤채팅 시작하기
           </Button>
         </Link>
