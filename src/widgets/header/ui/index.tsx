@@ -21,7 +21,10 @@ const Header = () => {
   });
 
   useEffect(()=>{
-    setModalToggle();
+
+    if (modalToggle){
+      setModalToggle();
+    }
   },[location.pathname])
 
   return (
