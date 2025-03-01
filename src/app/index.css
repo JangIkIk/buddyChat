@@ -58,36 +58,35 @@
 
 @layer base {
   body {
-    @apply tw:font-mono tw:antialiased;
-    background-color: var(--color-service-light1);
+    @apply tw:font-mono tw:antialiased tw:bg-service-light1;
     @variant dark {
-      background-color: var(--color-service-dark1);
+      @apply tw:bg-service-dark1;
     }
   }
 }
 
 @utility c-bg-theme-strong {
-  background-color: var(--color-service-light1);
+  @apply tw:bg-service-light1;
   @variant dark {
-    background-color: var(--color-service-dark1);
+    @apply tw:bg-service-dark1;
   }
 }
 @utility c-bg-theme-normal {
-  background-color: var(--color-service-light2);
+  @apply tw:bg-service-light2;
   @variant dark {
-    background-color: var(--color-service-dark2);
+    @apply tw:bg-service-dark2;
   }
 }
 @utility c-bg-theme-weak {
-  background-color: var(--color-service-light3);
+  @apply tw:bg-service-light3;
   @variant dark {
-    background-color: var(--color-service-dark3);
+    @apply tw:bg-service-dark3;
   }
 }
 @utility c-text-theme-base {
-  color: var(--color-service-black);
+  @apply tw:text-service-black;
   @variant dark {
-    color: var(--color-service-white);
+    @apply tw:text-service-white;
   }
 }
 
@@ -112,8 +111,15 @@
   }
 }
 
+
+@layer components {
+  .card{
+    @apply tw:p-2 tw:border-1 tw:border-service-secondary tw:rounded-lg tw:text-center
+  }
+}
+
 /* 
-https://github.com/tailwindlabs/tailwindcss/discussions/8483
+https://github.com/tailwindlabs/tailwindcss/issues/16829
 접두사에 인식되지않는 문제로 인해 기존 유틸클래스를 재정의
  */
 @keyframes spin {

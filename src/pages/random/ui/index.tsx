@@ -1,6 +1,6 @@
 import { Match } from './Match';
-import { Chat } from './Chat';
 import { useToggle } from '@/shared/hooks/useToggle';
+import { Chat } from '@/widgets/chat';
 
 const Random = () => {
   // temp
