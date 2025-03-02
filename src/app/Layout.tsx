@@ -1,7 +1,7 @@
 import { Header } from "@/widgets/header";
 import { Outlet } from "react-router-dom";
 
-export const BaseLayout = () => {
+const BaseLayout = () => {
   return (
     <div className="tw:flex tw:flex-col">
       <header className="tw:h-(--header-h-base)">
@@ -13,3 +13,5 @@ export const BaseLayout = () => {
     </div>
   );
 };
+
+export { BaseLayout }

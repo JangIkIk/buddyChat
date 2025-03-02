@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BaseLayout } from './layout/BaseLayout';
+import { BaseLayout } from './Layout';
 import { Home } from "@/pages/home";
 import { Random } from '@/pages/random';
 import { Group } from '@/pages/group';
