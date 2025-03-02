@@ -1,20 +1,26 @@
+import { useChatMessage } from '../model/use-chat-message';
 import Send from "@/shared/asset/send.svg?react";
 import ChatOut from "@/shared/asset/out.svg?react";
 
 const ChatInput = () => {
+  const { chatRef, sendClickMessage, sendEnterMessage } = useChatMessage();
   return (
-    <div className="tw:p-2 tw:border-1 tw:border-service-secondary tw:rounded-lg tw:flex tw:items-center tw:gap-3 tw:text-base">
+    <div className="tw:flex tw:items-center tw:gap-3 tw:text-base">
       <textarea
-        className="tw:grow tw:outline-none tw:resize-none tw:peer"
+        className="tw:grow tw:outline-none tw:resize-none tw:peer tw:border-1 tw:border-service-secondary tw:rounded-lg tw:p-2 "
         placeholder="채팅 메세지를 입력해주세요"
         maxLength={100}
-        rows={2}
+        rows={1}
+        ref={chatRef}
         required
+        onKeyDown={sendEnterMessage}
       />
-
-        <Send className="tw:peer-invalid:fill-service-gray tw:fill-service-primary tw:size-5 tw:cursor-pointer tw:hover:fill-service-secondary" />
-        <ChatOut className="tw:fill-service-gray tw:size-5 tw:cursor-pointer tw:hover:fill-service-secondary"/>
-      </div>
+      <Send
+        className="tw:peer-invalid:fill-service-gray tw:peer-invalid:cursor-not-allowed tw:fill-service-primary tw:size-5 tw:cursor-pointer"
+        onClick={sendClickMessage}
+      />
+      <ChatOut className="tw:fill-service-gray tw:size-5 tw:cursor-pointer tw:hover:fill-service-secondary" />
+    </div>
   );
 };
 
