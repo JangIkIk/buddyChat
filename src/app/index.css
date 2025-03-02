@@ -21,6 +21,8 @@
   --color-service-dark1: var(--color-service-dark1);
   --color-service-dark2: var(--color-service-dark2);
   --color-service-dark3: var(--color-service-dark3);
+
+  --animate-dotPing: dotsPing 2s infinite steps(3);
   /*
     [반응형]
     Html: 기본값 16px 기준
@@ -126,4 +128,11 @@ https://github.com/tailwindlabs/tailwindcss/issues/16829
   to {
     transform: rotate(360deg); /* 360도 회전 */
   }
+}
+
+@keyframes dotsPing {
+  0% { content: "."}
+  22% { content: ".."}
+  44% { content: "..."}
+  66% { content: "...."}
 }
