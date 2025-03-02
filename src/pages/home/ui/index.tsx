@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { text } from "../text";
+import { tempText } from "../temp/temp-text";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/Button";
 
@@ -20,9 +20,9 @@ const Home = () => {
               "tw:md:text-2xl"
             )}
           >
-            {text.serviceInfo.title}
+            {tempText.serviceInfo.title}
           </span>
-          {text.serviceInfo.description}
+          {tempText.serviceInfo.description}
         </p>
         <Link to={"/random"}>
           <Button intent={"select"} size={"lg"} className={cn("tw:max-sm:text-sm")}>
@@ -34,7 +34,7 @@ const Home = () => {
       {/* section2 = 백엔드 데이터 연결*/}
       <section className="tw:snap-always tw:p-4 tw:snap-start tw:h-full tw:flex tw:flex-col tw:gap-5 tw:max-w-[1024px] tw:m-auto tw:overflow-y-scroll">
         <h2 className="tw:font-bold tw:text-xl">이런게 가능해요!</h2>
-        {text.chatInfo.map((item, idx) => {
+        {tempText.chatInfo.map((item, idx) => {
           return (
             <div key={idx}>
               <span className="tw:font-bold">{item.title}</span>

@@ -1,4 +1,4 @@
-export const text = {
+const tempText = {
   serviceInfo: {
     title: "Buddy Chat이란?",
     description:
@@ -25,3 +25,5 @@ export const text = {
     },
   ],
 };
+
+export { tempText };
