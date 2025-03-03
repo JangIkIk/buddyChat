@@ -9,7 +9,7 @@ const buttonVariants = cva(
     {
         variants: {
             intent:{
-                default: ["tw:c-bg-theme-strong tw:c-text-theme-base tw:outline-1 tw:outline-service-gray"],
+                default: ["tw:bg-service-white tw:text-service-black tw:outline-1 tw:outline-service-gray"],
                 select: ["tw:bg-service-primary tw:text-service-white"],
                 cancel: ["tw:bg-service-red tw:text-service-white"],
             },

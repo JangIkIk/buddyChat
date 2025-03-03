@@ -1,9 +1,11 @@
 import { useChatMessage } from '../model/use-chat-message';
 import Send from "@/shared/asset/send.svg?react";
 import ChatOut from "@/shared/asset/out.svg?react";
+import { useAlarm } from '@/shared/store/modal-alarm';
 
 const ChatInput = () => {
   const { chatRef, sendClickMessage, sendEnterMessage } = useChatMessage();
+  const outModal = useAlarm(( state )=> state.toggleModal);
   return (
     <div className="tw:flex tw:items-center tw:gap-3 tw:text-base">
       <textarea
@@ -19,7 +21,7 @@ const ChatInput = () => {
         className="tw:peer-invalid:fill-service-gray tw:peer-invalid:cursor-not-allowed tw:fill-service-primary tw:size-5 tw:cursor-pointer"
         onClick={sendClickMessage}
       />
-      <ChatOut className="tw:fill-service-gray tw:size-5 tw:cursor-pointer tw:hover:fill-service-secondary" />
+      <ChatOut className="tw:fill-service-gray tw:size-5 tw:cursor-pointer tw:hover:fill-service-secondary" onClick={outModal}/>
     </div>
   );
 };
