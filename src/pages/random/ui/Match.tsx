@@ -45,8 +45,7 @@ const Match = ( props: {_setChatStart: () => void}) => {
       {!_tempFail && _tempSocket && (
         <>
           <h1 className="tw:text-xl tw:flex tw:flex-col tw:justify-center tw:items-center tw:gap-3">
-            <Loading size="tw:size-10" />
-            상대를 찾는중입니다..
+            <div className="tw:flex tw:items-center tw:gap-3"><span>상대를 찾는중입니다..</span><Loading size="tw:size-8" /></div>
             <Button intent={"cancel"} onClick={()=>_setTempSocket(true)}>
               매칭 취소
             </Button>
