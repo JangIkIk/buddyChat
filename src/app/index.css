@@ -116,7 +116,7 @@
 
 @layer components {
   .card{
-    @apply tw:p-2 tw:border-1 tw:border-service-secondary tw:rounded-lg tw:text-center
+    @apply tw:p-2 tw:border-1 tw:border-service-secondary tw:rounded-lg
   }
 }
 

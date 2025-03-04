@@ -5,11 +5,11 @@ import { cn } from "@/shared/lib/cn";
 
 
 const buttonVariants = cva(
-    "tw:rounded-lg tw:p-2 tw:px-4 tw:cursor-pointer",
+    "tw:rounded-lg tw:py-1 tw:px-4 tw:cursor-pointer",
     {
         variants: {
             intent:{
-                default: ["tw:bg-service-white tw:text-service-black tw:outline-1 tw:outline-service-gray"],
+                default: ["tw:bg-service-white tw:text-service-gray tw:outline-1 tw:outline-service-gray"],
                 select: ["tw:bg-service-primary tw:text-service-white"],
                 cancel: ["tw:bg-service-red tw:text-service-white"],
             },
