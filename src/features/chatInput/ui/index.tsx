@@ -9,7 +9,7 @@ const ChatInput = () => {
   return (
     <div className="tw:flex tw:items-center tw:gap-3 tw:text-base">
       <textarea
-        className="tw:grow tw:outline-none tw:resize-none tw:peer tw:border-1 tw:border-service-secondary tw:rounded-lg tw:p-2 "
+        className="tw:grow tw:outline-none tw:resize-none tw:peer card"
         placeholder="채팅 메세지를 입력해주세요"
         maxLength={100}
         rows={1}
