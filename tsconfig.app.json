@@ -46,5 +46,5 @@
     "noUncheckedSideEffectImports": true
   },
   // 특정 경로나 패턴을 기준으로 파일들을 포함하여 컴파일한다(디렉토리 단위로 컴파일할 파일을 지정할때 사용)
-  "include": ["src", "vite-env.d.ts"]
+  "include": ["src/**/*"]
 }
