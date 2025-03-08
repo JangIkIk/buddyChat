@@ -1,8 +1,9 @@
-import { Button } from "@/shared/ui/Button";
-import { useSocketConnection } from "@/entities/socket-connection";
 import { useEffect } from "react";
+import { Button } from "@/shared/ui/Button";
 import { Loading } from "@/shared/ui/Loading";
 import { useRandomMatch } from "@/entities/random-match";
+import { Chat } from "@/widgets/chat";
+import { useSocketConnection } from "@/entities/socket-connection";
 
 const Random = () => {
   const { socket, socketAction } = useSocketConnection();
@@ -23,10 +24,10 @@ const Random = () => {
 
   return (
     <div className="tw:h-full tw:text-base tw:c-text-theme-base">
-      <div className="tw:h-full tw:c-linear-base tw:flex tw:flex-col tw:justify-center tw:items-center tw:gap-3">
-        {match ? (
-          <div>채팅시작</div>
-        ) : (
+      {match ? (
+        <Chat />
+      ) : (
+        <div className="tw:h-full tw:c-linear-base tw:flex tw:flex-col tw:justify-center tw:items-center tw:gap-3">
           <>
             {!waiting && !timeout && (
               <>
@@ -63,8 +64,8 @@ const Random = () => {
               </>
             )}
           </>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
