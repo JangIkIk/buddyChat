@@ -6,7 +6,8 @@ const useSocketConnection = create<SocketConnectionState & SocketConnectionActio
 
   socketAction: {
     connect: () => {
-      const newSocket = io(`${import.meta.env.VITE_TEST_WOCKET_URL}`, {
+      const newSocket = io(`${import.meta.env.VITE_TEST_WOCKET_URL}/random`, {
+        path: '/chat',
         transports: ["websocket"],
       });
 
