@@ -1,10 +1,10 @@
-import { useChatMessage } from '../model/use-chat-message';
+import { useChatEventHandler } from '../model/use-chat-event-handler';
 import Send from "@/shared/asset/send.svg?react";
 import ChatOut from "@/shared/asset/out.svg?react";
 import { useAlarm } from '@/shared/store/modal-alarm';
 
 const ChatInput = () => {
-  const { chatRef, sendClickMessage, sendEnterMessage } = useChatMessage();
+  const { errorMessage, chatRef, sendClickMessage, sendEnterMessage } = useChatEventHandler();
   const outModal = useAlarm(( state )=> state.toggleModal);
   return (
     <div className="tw:flex tw:items-center tw:gap-3 tw:text-base">
