@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { useEnterSendMessage } from '../model/use-enter-send-message';
-import { useClickSendMessage } from '../model/use-click-send-message';
+import { useSendMessageOnEnter } from '../model/use-send-message-on-enter';
+import { useSendMessageOnClick } from '../model/use-send-message-on-click';
 import Send from "@/shared/asset/send.svg?react";
 
 const ChatInput = () => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const { enterHanlder } = useEnterSendMessage(chatRef);
-  const { clickHandler } = useClickSendMessage(chatRef);
+  const { enterHanlder } = useSendMessageOnEnter(chatRef);
+  const { clickHandler } = useSendMessageOnClick(chatRef);
   return (
     <div className="tw:w-full card tw:p-2 tw:flex tw:items-center tw:gap-3 tw:text-base tw:relative">
       <textarea
