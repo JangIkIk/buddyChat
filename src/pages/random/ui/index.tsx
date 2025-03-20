@@ -1,21 +1,25 @@
-import { useMatchEventHandler } from "../api/use-match-evenet-handler";
+import { useMatchOnEvents } from "../model/use-match-on-events";
 import { Button } from "@/shared/ui/Button";
 import { Loading } from "@/shared/ui/Loading";
 import { ChatContent } from "@/widgets/chat-content";
 import { ChatInput } from '@/features/chat-Input';
+import { ChatOutButton } from '@/features/chat-out-button';
+import { useSocketConnection } from "@/shared/store/use-socket-connection";
 
 const Random = () => {
-  const { match, matchTime,  waiting, matchConnect, matchDisConnect, matchStart } =
-    useMatchEventHandler();
+  const { socketAction } = useSocketConnection();
+  const connectSocket = () => socketAction.connect("/random");
+  const { match, matchTime,  waiting, startHandler, cancelHandler } = useMatchOnEvents();
 
   return (
     <div className="tw:h-full tw:text-base tw:c-text-theme-base">
       {match ? (
         <div className="tw:h-full tw:flex tw:flex-col tw:p-4 tw:gap-1">
-          <div className="tw:grow-1 tw:overflow-y-scroll">
-            <ChatContent matchTime={matchTime} matchStartAlert={"익명의 상대와 1 : 1 대화를 시작합니다"}/>
-          </div>
+          <ChatContent matchTime={matchTime} matchStartAlert={"익명의 상대와 1 : 1 대화를 시작합니다"}/>
+          <div className="tw:flex tw:gap-3 tw:items-center">
           <ChatInput/>
+          <ChatOutButton/>
+          </div>
         </div>
       ) : (
         <div className="tw:h-full tw:c-linear-base tw:flex tw:flex-col tw:justify-center tw:items-center tw:gap-3">
@@ -27,7 +31,7 @@ const Random = () => {
               </h1>
               <Button
                 intent={"select"}
-                onClick={matchStart}
+                onClick={connectSocket}
               >
                 매칭 시작하기
               </Button>
@@ -43,7 +47,7 @@ const Random = () => {
                 </div>
                 <Button
                   intent={"cancel"}
-                  onClick={matchDisConnect}
+                  onClick={cancelHandler}
                 >
                   매칭 취소
                 </Button>
@@ -56,7 +60,7 @@ const Random = () => {
               <h1 className="tw:text-xl">
                 현재 매칭할 수 있는 사용자가 없습니다.
               </h1>
-              <Button intent={"select"} onClick={matchConnect}>다시찾기</Button>
+              <Button intent={"select"} onClick={startHandler}>다시찾기</Button>
             </>
           )}
         </div>
