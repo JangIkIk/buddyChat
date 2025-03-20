@@ -1,9 +1,9 @@
 import { RefObject, type KeyboardEvent } from "react";
-import { useChatSendMessage } from "@/entities/use-chat-send-message";
+import { useChatMessageSocket } from "@/entities/use-chat-message-socket";
 
 
-const useEnterSendMessage = ( chatRef: RefObject<HTMLTextAreaElement | null>) => {
-  const { submitMessage } = useChatSendMessage();
+const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) => {
+  const { sendChatMessage } = useChatMessageSocket();
 
   const enterHanlder = (event: KeyboardEvent<HTMLTextAreaElement>) => {
      // chatRef.current or socket이 없을경우
@@ -17,7 +17,7 @@ const useEnterSendMessage = ( chatRef: RefObject<HTMLTextAreaElement | null>) =>
      // Enter만 눌렸다면
      if (event.key === "Enter" && !event.shiftKey){
        // 해당부분처럼 메세지와 알람 모든것을 전역상태로 관리하는게 좋을듯
-       submitMessage(chatRef.current.value, (status) => {
+       sendChatMessage(chatRef.current.value, (status) => {
         switch (status) {
           case 200:
             if (chatRef.current) chatRef.current.value = "";
@@ -33,4 +33,4 @@ const useEnterSendMessage = ( chatRef: RefObject<HTMLTextAreaElement | null>) =>
   return { enterHanlder };
 };
 
-export { useEnterSendMessage }
+export { useSendMessageOnEnter }

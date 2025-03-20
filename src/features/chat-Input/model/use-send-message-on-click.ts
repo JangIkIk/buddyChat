@@ -1,14 +1,14 @@
 import { RefObject } from "react";
-import { useChatSendMessage } from "@/entities/use-chat-send-message";
+import { useChatMessageSocket } from "@/entities/use-chat-message-socket";
 
-const useClickSendMessage = (chatRef: RefObject<HTMLTextAreaElement | null>) => {
-  const { submitMessage } = useChatSendMessage();
+const useSendMessageOnClick = (chatRef: RefObject<HTMLTextAreaElement | null>) => {
+  const { sendChatMessage } = useChatMessageSocket();
 
   const clickHandler = () => {
     if (!chatRef.current) return;
     if (chatRef.current.value === "KEYWORD") return console.log("키워드전송");
 
-    submitMessage(chatRef.current.value, (status) => {
+    sendChatMessage(chatRef.current.value, (status) => {
       switch (status) {
         case 200:
           if (chatRef.current) chatRef.current.value = "";
@@ -23,4 +23,4 @@ const useClickSendMessage = (chatRef: RefObject<HTMLTextAreaElement | null>) => 
   return { clickHandler };
 };
 
-export { useClickSendMessage }
+export { useSendMessageOnClick }
