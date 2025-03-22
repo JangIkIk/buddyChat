@@ -17,7 +17,7 @@ const ChatContent = (props: ChatContentProps) => {
         {matchTime && matchStartAlert && ( // 입장알람
           <div className="card tw:text-center tw:text-service-gray">
             <p>{matchStartAlert}</p>
-            {matchTime && <p>{timeStamp(matchTime)}</p>}
+            {matchTime && <p>{matchTime}</p>}
           </div>
         )}
         
