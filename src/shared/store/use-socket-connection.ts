@@ -5,15 +5,19 @@ const useSocketConnection = create<SocketConnectionState & SocketConnectionActio
   socket: null,
 
   socketAction: {
-    connect: () => {
-      const newSocket = io(`${import.meta.env.VITE_TEST_WOCKET_URL}`, {
+    connect: (nameSpace) => {
+      // socket 연결요청
+      const newSocket = io(`${import.meta.env.VITE_WOCKET_API}${nameSpace}`, {
+        path: '/chat',
         transports: ["websocket"],
       });
 
+      // socket 연결 성공시
       newSocket.on("connect", () => {
         set({ socket: newSocket });
       });
 
+      // socket 연결 실패시
       newSocket.on("connect_error", () => {
         set({ socket: null });
       });
@@ -29,6 +33,6 @@ type SocketConnectionState = {
 
 type SocketConnectionAction = {
   socketAction: {
-    connect: () => void;
+    connect: ( nameSpace:string ) => void;
   };
 } & {};
