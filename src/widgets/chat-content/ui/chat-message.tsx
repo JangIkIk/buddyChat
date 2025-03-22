@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { type MessageMapperType} from '../api/use-chat-message-list';
+import { type MessageMapperType} from '../model/use-chat-message-list';
 import { cn } from "@/shared/lib/cn";
 import { timeStamp } from "@/shared/lib/time-stamp";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
