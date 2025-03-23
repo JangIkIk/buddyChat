@@ -15,7 +15,7 @@ const ChatContent = (props: ChatContentProps) => {
   return (
     <div className="tw:h-full tw:flex tw:flex-col tw:gap-5 tw:c-bg-theme-strong tw:overflow-y-scroll">
         {matchTime && matchStartAlert && ( // 입장알람
-          <div className="card tw:text-center tw:text-service-gray">
+          <div className="card tw:text-center tw:text-service-gray tw:p-2">
             <p>{matchStartAlert}</p>
             {matchTime && <p>{matchTime}</p>}
           </div>

@@ -5,10 +5,14 @@ import Send from "@/shared/asset/send.svg?react";
 
 const ChatInput = () => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
-  const { enterHanlder } = useSendMessageOnEnter(chatRef);
+  const { enterHanlder, typingHandler, renderTyping } = useSendMessageOnEnter(chatRef);
   const { clickHandler } = useSendMessageOnClick(chatRef);
+
   return (
     <div className="tw:w-full card tw:p-2 tw:flex tw:items-center tw:gap-3 tw:text-base tw:relative">
+      {renderTyping && <p className="tw:after:content-['.'] tw:after:animate-dotPing tw:absolute tw:top-0 tw:left-0 tw:-translate-y-full tw:text-service-gray tw:text-sm">
+        상대방이 입력중입니다
+      </p>}
       <textarea
         className="tw:grow tw:outline-none tw:resize-none tw:peer"
         placeholder="채팅 메세지를 입력해주세요"
@@ -16,6 +20,7 @@ const ChatInput = () => {
         rows={1}
         ref={chatRef}
         required
+        onInput={typingHandler}
         onKeyDown={enterHanlder}
       />
       <Send
