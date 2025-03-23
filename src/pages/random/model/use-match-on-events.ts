@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRandomMatchSocket } from '@/entities/use-random-match-socket';
+import { timeStamp } from '@/shared/lib/time-stamp';
 
 const useMatchOnEvents = () => {
   const [match, setMatch] = useState<boolean | null>(null);
@@ -26,7 +27,7 @@ const useMatchOnEvents = () => {
     switch(matcResult.status){
         case 200: // 매치성공
             setMatch(true);
-            setMatchTime(matchTime)
+            setMatchTime(timeStamp(matcResult.matchTime))
         break;
         case 408: // 매치시간초과
             setMatch(false);
