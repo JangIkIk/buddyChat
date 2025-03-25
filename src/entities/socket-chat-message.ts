@@ -1,4 +1,4 @@
-import { type BaseResponse, type SocketCallback} from './types';
+import { type BaseResponse, type DataResponse, type BaseCallback, type DataCallback } from './types';
 
 type ChatMessage = {
     chatMessageIdx: number;
@@ -8,11 +8,15 @@ type ChatMessage = {
     nickName: string | null;
 };
 
-interface ReceivedChatMessageResponse extends BaseResponse {
-    data: ChatMessage;
+type ChatMessageMapper = {
+    idx: number;
+    chatMessageList: string[];
+    chatTime: string;
+    sender: string;
+    nickName: string | null;
 };
 
-const chatMessage = ( socket: GlobalSocket | null ) => {
+const chatMessage = ( socket: GlobalSocket ) => {
     const emptyCallback = () => console.warn("Socket not connected");
 
 
@@ -21,23 +25,30 @@ const chatMessage = ( socket: GlobalSocket | null ) => {
         return { sendChatMessage: emptyCallback, receiveChatMessage: emptyCallback, removeListener: emptyCallback};
     };   
 
-    const sendChatMessage = (chatMessage: string, callback: SocketCallback<BaseResponse>) => {
+    const sendChatMessage = (chatMessage: string, callback: BaseCallback) => {
         socket.emit("chat-message", chatMessage, (res: BaseResponse) => {
             callback(res);
         });
     };
       
-    const receiveChatMessage = (callback: SocketCallback<ReceivedChatMessageResponse>) => {
-        socket.on("chat-message", (res: ReceivedChatMessageResponse)=>{
-            callback(res);
+    const receiveChatMessage = (callback: DataCallback<ChatMessageMapper>) => {
+        socket.on("chat-message", (res: DataResponse<ChatMessage>)=>{
+            const mapperData:ChatMessageMapper = {
+                idx: res.data.chatMessageIdx,
+                chatMessageList:[res.data.chatMessage],
+                chatTime: res.data.chatTime,
+                sender: res.data.sender,
+                nickName: res.data.nickName,
+            }
+            callback({...res, data: mapperData});
         });
     };
 
     const removeListener = () => {
         socket.off("chat-message", receiveChatMessage);
-    }
+    };
         
     return { sendChatMessage, receiveChatMessage, removeListener };
 };
 
-export { chatMessage, type ChatMessage };
+export { chatMessage, type ChatMessageMapper };
