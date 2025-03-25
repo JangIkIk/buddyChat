@@ -1,25 +1,25 @@
-import { type BaseResponse, type SocketCallback} from './types';
+import { type BaseResponse, type BaseCallback} from './types';
 
-const randomMatch = ( socket: GlobalSocket | null ) => {
+const randomMatch = ( socket: GlobalSocket ) => {
   const emptyCallback = () => console.warn("Socket not connected");
   
   if(!socket){
     return { connectMatch: emptyCallback, disconnectMatch: emptyCallback, resultMatch: emptyCallback, removeListener: emptyCallback};
   }
 
-  const connectMatch = (callback: SocketCallback<BaseResponse>) => {
+  const connectMatch = (callback: BaseCallback) => {
     socket.emit("match-start", (res: BaseResponse) => {
         callback(res);
     });
   };
 
-  const disconnectMatch = (callback: SocketCallback<BaseResponse>) => {
+  const disconnectMatch = (callback: BaseCallback) => {
     socket.emit("match-cancel", (res: BaseResponse) => {
       callback(res);
     });
   };
 
-  const resultMatch = (callback: SocketCallback<BaseResponse>) => {
+  const resultMatch = (callback: BaseCallback) => {
     socket.on("match-result", (res: BaseResponse) => {
       callback(res);
     });

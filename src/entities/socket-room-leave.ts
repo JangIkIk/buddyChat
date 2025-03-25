@@ -1,13 +1,13 @@
-import { type BaseResponse, type SocketCallback} from './types';
+import { type BaseResponse, type BaseCallback} from './types';
 
-const roomLeave = ( socket: GlobalSocket | null) => {
+const roomLeave = ( socket: GlobalSocket ) => {
     const emptyCallback = () => console.warn("Socket not connected");
 
     if(!socket){
         return { sendRoomLeave: emptyCallback };
     }
 
-    const sendRoomLeave = ( callback: SocketCallback<BaseResponse> ) => {
+    const sendRoomLeave = ( callback: BaseCallback ) => {
         socket.emit("room-outside", (res: BaseResponse) => {
             callback(res);
         });

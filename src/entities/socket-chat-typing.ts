@@ -1,21 +1,18 @@
-import { type SocketCallback } from './types';
 
-type ReceivedTyping = {
-    typing: boolean;
-}
+type ReceivedTyping = {typing: boolean}
 
-const chatTyping = ( socket: GlobalSocket | null) => {
+const chatTyping = ( socket: GlobalSocket ) => {
     const emptyCallback = () => console.warn("Socket not connected");
     
     if(!socket){
         return {sendChatTyping: emptyCallback, reciveChatTyping: emptyCallback, removeListener: emptyCallback};
     }
     
-    const sendChatTyping = ( typing: boolean ) => {
-        socket.emit("chat-typing", {typing});
+    const sendChatTyping = ( typing: ReceivedTyping ) => {
+        socket.emit("chat-typing", typing);
     };
 
-    const reciveChatTyping = ( callback: SocketCallback<ReceivedTyping>) => {
+    const reciveChatTyping = ( callback: (res: ReceivedTyping) => void ) => {
         socket.on("chat-typing", ( res: ReceivedTyping ) => {
             callback(res);
         });

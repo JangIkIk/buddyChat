@@ -1,37 +1,38 @@
-import { type BaseResponse, type SocketCallback } from './types';
+import { type DataCallback, type DataResponse } from './types';
 
-type AlertType = "out" | "join";
+type JoinAlert = {
+    joinTime: string;
+    nickName: string | null;
+    roomName: string | null;
+    type: "join";   
+}
 
-type RoomAlert = {
-    type: AlertType;
-    roomOutTime: string;
+type OutAlert = {
+    outTime: string;
     chatTime: string;
     nickName: string | null;
-    socketId: string;
-};
+    type: 'out'
+}
 
-interface ReceviedRoomAlertResponse extends BaseResponse {
-    data: RoomAlert;
-};
 
-const roomAlert = ( socket: GlobalSocket | null ) => {
+const roomAlert = ( socket: GlobalSocket ) => {
     const emptyCallback = () => console.warn("Socket not connected");
 
     if(!socket){
         return { receiveRoomAlert: emptyCallback, removeListener: emptyCallback };
     };
 
-    const receiveRoomAlert = ( callback: SocketCallback<ReceviedRoomAlertResponse> ) => {
-        socket.on("room-alert", ( res: ReceviedRoomAlertResponse ) => {
+    const receiveRoomAlert = ( callback: DataCallback<JoinAlert | OutAlert> ) => {
+        socket.on("room-alert", ( res: DataResponse<JoinAlert | OutAlert> ) => {
             callback(res);
         })
-    }
+    };
 
     const removeListener = () => {
         socket.off("room-alert", receiveRoomAlert);
-    }
+    };
 
     return { receiveRoomAlert, removeListener };
 };
 
-export { roomAlert } 
+export { roomAlert, type JoinAlert, type OutAlert };
