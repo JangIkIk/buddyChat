@@ -3,6 +3,12 @@ interface BaseResponse {
     message: string;
 };
 
-type SocketCallback<T> = (res: T) => void;
+interface DataResponse<T> extends BaseResponse {
+    data: T;
+};
 
-export { type BaseResponse, type SocketCallback };
+type BaseCallback = (res: BaseResponse) => void;
+type DataCallback<T> = (res: DataResponse<T>) => void;
+
+
+export { type BaseResponse, type DataResponse, type BaseCallback, type DataCallback };
