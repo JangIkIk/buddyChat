@@ -1,1 +1,2 @@
-export { default as ChatContent } from './ui'
+export { default } from './ui'
+export { useMergeList } from './store/use-merge-list';
