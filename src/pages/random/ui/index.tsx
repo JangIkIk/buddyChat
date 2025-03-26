@@ -1,21 +1,22 @@
 import { useMatchOnEvents } from "../model/use-match-on-events";
 import { Button } from "@/shared/ui/Button";
 import { Loading } from "@/shared/ui/Loading";
-import { ChatContent } from "@/widgets/chat-content";
+import ChatContent from "@/widgets/chat-content";
 import { ChatInput } from '@/features/chat-Input';
 import { ChatOutButton } from '@/features/chat-out-button';
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
 
 const Random = () => {
   const { socketAction } = useSocketConnection();
-  const connectSocket = () => socketAction.connect("/random");
-  const { match, matchTime,  waiting, startHandler, cancelHandler } = useMatchOnEvents();
+  const connectSocket = () => socketAction.connect("/random"); // local
+  // const connectSocket = () => socketAction.connect(""); // server
+  const { match, waiting, startHandler, cancelHandler } = useMatchOnEvents();
 
   return (
     <div className="tw:h-full tw:text-base tw:c-text-theme-base">
       {match ? (
         <div className="tw:h-full tw:flex tw:flex-col tw:p-4 tw:gap-1">
-          <ChatContent matchTime={matchTime} matchStartAlert={"익명의 상대와 1 : 1 대화를 시작합니다"}/>
+          <ChatContent/>
           <div className="tw:flex tw:gap-3 tw:items-center">
           <ChatInput/>
           <ChatOutButton/>
