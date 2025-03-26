@@ -5,7 +5,7 @@
 // 전역 타입설정
 import { Socket } from "socket.io-client";
 declare global {
-  type GlobalSocket = Socket;
+  type GlobalSocket = Socket | null;
 }
 
 /*
