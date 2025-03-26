@@ -1,19 +1,21 @@
 import { RefObject } from "react";
-import { useChatMessageSocket } from "@/entities/use-chat-message-socket";
+import { chatMessage } from "@/entities/socket-chat-message";
 import { chatMessageRegex } from "@/shared/consts/regex";
+import { useSocketConnection } from '@/shared/store/use-socket-connection';
 
 const useSendMessageOnClick = (
   chatRef: RefObject<HTMLTextAreaElement | null>
 ) => {
-  const { sendChatMessage } = useChatMessageSocket();
+  const { socket } = useSocketConnection();
+  const { sendChatMessage } = chatMessage(socket);
 
   const clickHandler = () => {
     if (!chatRef.current) return;
     if (chatRef.current.value === "KEYWORD") return console.log("키워드전송");
 
     if (chatMessageRegex(chatRef.current.value)) {
-      sendChatMessage(chatRef.current.value, (status) => {
-        switch (status) {
+      sendChatMessage(chatRef.current.value, (res) => {
+        switch (res.status) {
           case 200:
             if (chatRef.current) chatRef.current.value = "";
             break;

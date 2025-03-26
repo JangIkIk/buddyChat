@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
-import { useChatMessageSocket } from "@/entities/use-chat-message-socket";
-import { messageWrap, type MessageMapperType } from "../lib/message-wrap";
+import { chatMessage } from "@/entities/socket-chat-message";
+import { useMergeList } from '../store/use-merge-list';
 
 const useChatMessageList = () => {
   const { socket } = useSocketConnection();
-  const [messageList, setMessageList] = useState<MessageMapperType[]>([]);
-  const { eventName, reciveChatMessage } = useChatMessageSocket();
+  const saveChatMessage = useMergeList( state => state.action.saveChatMessage)
+  const { receiveChatMessage, removeListener } = chatMessage(socket);
 
   useEffect(() => {
     if (!socket) return;
 
-    reciveChatMessage((res) => {
+    receiveChatMessage((res) => {
         const { status, data } = res;
         switch (status) {
           case 201:
-            setMessageList(prev => [...messageWrap(prev, data)]);
+            saveChatMessage(data);
             break;
           default:
             console.warn("cannot find the status code");
@@ -23,11 +23,10 @@ const useChatMessageList = () => {
     });
 
     return () => {
-      socket.off(eventName, reciveChatMessage);
+      removeListener();
     }
   }, [socket]);
 
-  return { messageList };
 };
 
-export { useChatMessageList, type MessageMapperType };
+export { useChatMessageList };

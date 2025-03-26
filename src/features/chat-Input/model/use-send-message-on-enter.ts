@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, type RefObject, type KeyboardEvent } from "react";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
-import { useChatMessageSocket } from "@/entities/use-chat-message-socket";
-import { useChatTypingSocket } from "@/entities/use-chat-typing-socket";
+import { chatMessage } from "@/entities/socket-chat-message";
+import { chatTyping } from "@/entities/socket-chat-typing";
 import { chatMessageRegex } from "@/shared/consts/regex";
 
 const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) => {
@@ -11,11 +11,11 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
   const { socket } = useSocketConnection();
   const [renderTyping, setRenderTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const { sendChatTyping, reciveChatTyping, eventName } = useChatTypingSocket();
-
+  const { sendChatTyping, reciveChatTyping, removeListener } = chatTyping(socket);
   // message
-  const { sendChatMessage } = useChatMessageSocket();
+  const { sendChatMessage } = chatMessage(socket);
 
+  // typing emit
   const typingHandler = () => {
     if (!chatRef.current) return;
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -23,18 +23,19 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
     if (chatRef.current.value.trim() !== "") {
       if (!isTyping) {
         setIsTyping(true);
-        sendChatTyping(true);
+        sendChatTyping({typing:true});
       }
 
       if (timerRef.current) clearTimeout(timerRef.current);
     } else {
       timerRef.current = window.setTimeout(() => {
         setIsTyping(false);
-        sendChatTyping(false);
+        sendChatTyping({typing:false});
       }, 2000);
     }
   };
 
+  // onKeyDown: typing && message
   const enterHanlder = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     // chatRef.current or socket이 없을경우
     if (!chatRef.current) return;
@@ -50,10 +51,10 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
       !event.shiftKey &&
       chatMessageRegex(chatRef.current.value)
     ) {
-      sendChatTyping(false);
+      sendChatTyping({typing:false});
       setIsTyping(false)
-      sendChatMessage(chatRef.current.value, (status) => {
-        switch (status) {
+      sendChatMessage(chatRef.current.value, (res) => {
+        switch (res.status) {
           case 200:
             if (chatRef.current) chatRef.current.value = "";
             break;
@@ -65,15 +66,16 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
     }
   };
 
+  // 
   useEffect(() => {
     if (!socket) return;
 
-    reciveChatTyping((typing) => {
-      setRenderTyping(typing);
+    reciveChatTyping((res) => {
+      setRenderTyping(res.typing);
     });
 
     return () => {
-      socket.off(eventName, reciveChatTyping);
+      removeListener();
     };
   }, []);
 
