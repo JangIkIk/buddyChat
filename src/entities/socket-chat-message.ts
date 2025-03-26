@@ -14,6 +14,7 @@ type ChatMessageMapper = {
     chatTime: string;
     sender: string;
     nickName: string | null;
+    type: "message";
 };
 
 const chatMessage = ( socket: GlobalSocket ) => {
@@ -39,6 +40,7 @@ const chatMessage = ( socket: GlobalSocket ) => {
                 chatTime: res.data.chatTime,
                 sender: res.data.sender,
                 nickName: res.data.nickName,
+                type: "message",
             }
             callback({...res, data: mapperData});
         });
