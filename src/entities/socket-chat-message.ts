@@ -22,7 +22,6 @@ const chatMessage = ( socket: GlobalSocket ) => {
 
 
     if (!socket) {
-        console.warn("Socket not connected");
         return { sendChatMessage: emptyCallback, receiveChatMessage: emptyCallback, removeListener: emptyCallback};
     };   
 
