@@ -1,14 +1,22 @@
 interface BaseResponse {
-    status: number;
-    message: string;
-};
+  status: number;
+  message: string;
+}
 
 interface DataResponse<T> extends BaseResponse {
-    data: T;
-};
+  data: T;
+}
 
+type EmptyCallback = () => void;
+type RemoveListener = () => void;
 type BaseCallback = (res: BaseResponse) => void;
 type DataCallback<T> = (res: DataResponse<T>) => void;
 
-
-export { type BaseResponse, type DataResponse, type BaseCallback, type DataCallback };
+export {
+  type BaseResponse,
+  type DataResponse,
+  type BaseCallback,
+  type DataCallback,
+  type EmptyCallback,
+  type RemoveListener,
+};
