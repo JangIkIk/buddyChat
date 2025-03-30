@@ -1,22 +1,37 @@
+// package & type
 import { useRef, useState, useEffect, type RefObject, type KeyboardEvent } from "react";
+// layer
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
 import { chatMessage } from "@/entities/socket-chat-message";
 import { chatTyping } from "@/entities/socket-chat-typing";
 import { chatMessageRegex } from "@/shared/consts/regex";
 
-const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) => {
 
-  // typing
+type EnterHanlder = (event: KeyboardEvent<HTMLTextAreaElement>) => void;
+type TypingHandler = () => void;
+type RenderTyping = boolean;
+type SendMessageOnEnterReturn = {
+  enterHanlder: EnterHanlder,
+  typingHandler: TypingHandler,
+  renderTyping: RenderTyping,
+}
+
+/**
+ * @FileDesc
+ * - 서버 송신 핸들러 (챠팅 메시지, 타이핑여부)
+ * - 
+*/
+const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>):SendMessageOnEnterReturn => {
+
   const timerRef = useRef<number | null>(null);
   const { socket } = useSocketConnection();
-  const [renderTyping, setRenderTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
+  const [renderTyping, setRenderTyping] = useState<RenderTyping>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
   const { sendChatTyping, reciveChatTyping, removeListener } = chatTyping(socket);
-  // message
+
   const { sendChatMessage } = chatMessage(socket);
 
-  // typing emit
-  const typingHandler = () => {
+  const typingHandler:TypingHandler = () => {
     if (!chatRef.current) return;
     if (timerRef.current) clearTimeout(timerRef.current);
 
@@ -35,18 +50,11 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
     }
   };
 
-  // onKeyDown: typing && message
-  const enterHanlder = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    // chatRef.current or socket이 없을경우
+  const enterHanlder:EnterHanlder = (event) => {
     if (!chatRef.current) return;
-    // 한글 조합형 입력방식으로인해, 한글을 조합중이라면
-    if (event.nativeEvent.isComposing) return;
-    // Enter로 줄바꿈을 방지하기위한 Enter + Shift 가아니라면 줄바꿈 방지
-    if (event.key === "Enter" && !event.shiftKey) event.preventDefault();
-    // 키워드를 입력했다면
-    if (chatRef.current.value === "KEYWORD") return console.log("키워드전송");
-    // Enter만 눌렸다면
-    if (
+    if (event.nativeEvent.isComposing) return; // 한글 조합형 입력방식으로인해, 한글을 조합중이라면
+    if (event.key === "Enter" && !event.shiftKey) event.preventDefault(); // Enter로 줄바꿈을 방지하기위한 Enter + Shift 가아니라면 줄바꿈 방지
+    if ( // Enter만 눌렸다면
       event.key === "Enter" &&
       !event.shiftKey &&
       chatMessageRegex(chatRef.current.value)
@@ -60,13 +68,12 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>) 
             break;
           default:
             alert("메세지를 전송할수가 없습니다.");
-            console.warn("cannot find the status code");
+            console.warn("cannot find the sendChatMessage(keyBoard) status code");
         }
       });
     }
   };
 
-  // 
   useEffect(() => {
     if (!socket) return;
 
