@@ -1,10 +1,31 @@
+// type
+import {type ReactElement} from 'react';
+// layer
 import ChatOut from "@/shared/asset/out.svg?react";
 import { useToggle } from "@/shared/hooks/useToggle";
 import ModalScreenBottom from '@/shared/ui/modal-screen-bottom';
 import { Button } from "@/shared/ui/Button";
+import { roomLeave } from '@/entities/socket-room-leave';
+import { useSocketConnection } from '@/shared/store/use-socket-connection';
 
-const ChatOutButton = () => {
+/**
+ * @FileDesc
+ * - 채팅방 나가기 버튼 UI
+ * - 채팅방 나가기 모달 UI
+ * - 서버 송신 핸들러 (방 나가기)
+*/
+const ChatOutButton = ():ReactElement => {
+
   const [modal, setModal] = useToggle(false);
+
+  const { socket } = useSocketConnection();
+  const { sendRoomLeave } = roomLeave(socket);
+
+  const outSideChat = () => {
+    sendRoomLeave();
+    setModal();
+  };
+  
   return (
     <>
       <ChatOut
@@ -17,7 +38,7 @@ const ChatOutButton = () => {
             채팅방을 나가시겠어요?
           </p>
           <div className="tw:flex tw:gap-2">
-            <Button intent="cancel" className="tw:py-1">
+            <Button intent="cancel" className="tw:py-1" onClick={outSideChat}>
               나가기
             </Button>
             <Button className="tw:py-1" onClick={setModal}>
