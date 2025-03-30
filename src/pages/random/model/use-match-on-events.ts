@@ -9,12 +9,11 @@ import { useMergeList } from '@/widgets/chat-content'
 
 type Match = boolean | null;
 
-interface MatchOnEventsReturn {
+type MatchOnEventsReturn = {
   match: Match,
   waiting: boolean,
   startMatch: () => void,
   cancelMatch: () => void,
-
 };
 
 /**
@@ -72,7 +71,8 @@ const useMatchOnEvents = (): MatchOnEventsReturn => {
           setMatch(true);
           break;
         case 204:
-          mergeAction.saveAlert(res.data)
+          mergeAction.saveAlert(res.data);
+          mergeAction.checkRoom();
           break;
         case 206:
           break;
