@@ -1,3 +1,4 @@
+// package
 import { create } from "zustand";
 import { io } from "socket.io-client";
 
@@ -11,6 +12,11 @@ type SocketConnectionAction = {
   };
 } & {};
 
+/**
+ * @FileDesc
+ * - 서버 이벤트 수신(연결성공, 연결실패)
+ * - 서버 이벤트 송신(연결요청)
+*/
 const useSocketConnection = create<SocketConnectionState & SocketConnectionAction>((set) => ({
   socket: null,
 

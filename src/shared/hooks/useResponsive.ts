@@ -1,5 +1,11 @@
 import { useMediaQuery } from "react-responsive";
 
+
+/**
+ * @FileDesc
+ * - 지정된 반응형화면 감지
+ * - 
+*/
 const useResponsive = (props: PropsType): boolean => {
   const { device, callback } = props;
 
