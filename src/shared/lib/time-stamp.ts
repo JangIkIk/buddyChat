@@ -1,3 +1,5 @@
+type FormType = "YYYY-MM" | "YYYY-MM-DD" | "HH:mm";
+
 const timeStamp = (date: string, form?: FormType) => {
   const dateWrap = new Date(date);
   const years = dateWrap.getFullYear();
@@ -23,5 +25,3 @@ const timeStamp = (date: string, form?: FormType) => {
 };
 
 export { timeStamp };
-
-type FormType = "YYYY-MM" | "YYYY-MM-DD" | "HH:mm";

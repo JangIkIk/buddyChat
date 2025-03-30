@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+/**
+ * @FileDesc
+ * - useState 단순 Toggle 변경
+ * - 
+*/
 const useToggle = (initialValue: boolean = false) => {
   const [toggle, setToggle] = useState<boolean>(initialValue);
 

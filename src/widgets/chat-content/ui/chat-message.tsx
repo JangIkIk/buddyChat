@@ -1,15 +1,23 @@
+// package
 import { memo } from "react";
-import { type MessageMapperType} from '../model/use-chat-message-list';
+// layer
+import { type ChatMessageMapper} from "@/entities/socket-chat-message";
 import { cn } from "@/shared/lib/cn";
 import { timeStamp } from "@/shared/lib/time-stamp";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
 
-const ChatMessage = (props: MessageMapperType) => {
+
+/**
+ * @FileDesc
+ * - 채팅메세지 UI (닉네임, 시간, 내용)
+ * - 
+*/
+const ChatMessage = (props: ChatMessageMapper) => {
   const { chatMessageList, chatTime, sender, nickName } = props;
   const { socket } = useSocketConnection();
-  const isSender = socket && socket.id === sender;
+  const isSender:boolean | null = socket && socket.id === sender;
   return (
-    <div>
+    <div className="tw:text-service-gray">
       {/* 송신자 본인은 닉네임을 숨김 */}
       {!isSender && <span>{nickName ?? "상대방"}</span>}
         <ul

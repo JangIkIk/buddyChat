@@ -1,59 +1,109 @@
+// package
 import { useEffect, useState } from "react";
-import { useRandomMatchSocket } from '@/entities/use-random-match-socket';
-import { timeStamp } from '@/shared/lib/time-stamp';
+// layer
+import { randomMatch } from "@/entities/socket-random-match";
+import { useSocketConnection } from "@/shared/store/use-socket-connection";
+import { roomAlert } from '@/entities/socket-room-alert';
+import { chatMessage } from "@/entities/socket-chat-message";
+import { useMergeList } from '@/shared/store/use-merge-list'
 
-const useMatchOnEvents = () => {
-  const [match, setMatch] = useState<boolean | null>(null);
-  const [matchTime, setMatchTime] = useState("");
+type Match = boolean | null;
+
+type MatchOnEventsReturn = {
+  match: Match,
+  waiting: boolean,
+  startMatch: () => void,
+  cancelMatch: () => void,
+};
+
+/**
+ * @fileoverview
+ * - 서버 수신 핸들러 (매치시간 초과, 룸 알람, 채팅 메세지)
+ * - 서버 송신 핸들러 (매치시작, 매치취소)
+ */
+
+const useMatchOnEvents = (): MatchOnEventsReturn => {
+
+  const [match, setMatch] = useState<Match>(null);
   const [waiting, setWaiting] = useState<boolean>(false);
-  const { socket, connectMatch, disconnectMatch, matcResult } = useRandomMatchSocket();
 
-  const startHandler = () => {
-    connectMatch((status) => {
-        if(status === 201) setWaiting(true);
-    })
+  const { socket } = useSocketConnection();
+  const mergeAction = useMergeList( state => state.action)
+
+  const { connectMatch, disconnectMatch, receiveMatchTimeout, removeListener: randomMatchRemove } = randomMatch(socket); 
+  const { receiveRoomAlert, removeListener: roomAlertRemove } = roomAlert(socket);
+  const { receiveChatMessage, removeListener } = chatMessage(socket);
+
+  
+  const startMatch = () => {
+    connectMatch((res) => {
+      if (res.status === 201) setWaiting(true);
+    });
   };
 
-  const cancelHandler = () => {
+  const cancelMatch = () => {
     setMatch(null);
-    disconnectMatch((status)=>{
-        if(status === 204) setWaiting(false);
-    })
+    disconnectMatch((res) => {
+      if (res.status === 204) setWaiting(false);
+    });
   };
 
   useEffect(() => {
+    if (!socket) return;
+    startMatch();
+    receiveMatchTimeout((res) => {
+      switch (res.status) {
+        case 408:
+          setMatch(false);
+          setWaiting(false);
+          break;
+        default:
+          setMatch(null);
+          setWaiting(false);
+          console.warn("cannot find the receiveMatchResult status code");
+      }
+    });
     
-    if (!matcResult.status) return;
-    switch(matcResult.status){
-        case 200: // 매치성공
-            setMatch(true);
-            setMatchTime(timeStamp(matcResult.matchTime))
-        break;
-        case 408: // 매치시간초과
-            setMatch(false);
-            setWaiting(false);
-        break;
-        default: // 상태코드 예외처리
-            setMatch(null);
-            setWaiting(false);
-            alert("서버문제로 현재는 이용할수가 없습니다.");
-            console.warn("cannot find the status code");
+    receiveRoomAlert((res)=>{
+      switch(res.status){
+        case 200:
+          mergeAction.saveAlert(res.data)
+          setMatch(true);
+          break;
+        case 204:
+          mergeAction.saveAlert(res.data);
+          mergeAction.checkRoom();
+          break;
+        case 206:
+          break;
+        default:
+          console.warn("cannot find the reciveRoomAlert status code");
+      }
+    })
+
+    receiveChatMessage((res) => {
+      const { status, data } = res;
+      switch (status) {
+        case 201:
+          mergeAction.saveChatMessage(data);
+          break;
+        default:
+          console.warn("cannot find the receiveChatMessage status code");
+      }
+  });
+
+    return () => {
+      randomMatchRemove();
+      roomAlertRemove();
+      removeListener();
     }
-
-  }, [matcResult]);
-
-  useEffect(()=>{
-    if(!socket) return;
-    startHandler();
-
-  },[socket])
+  }, [socket]);
 
   return {
     match,
-    matchTime,
     waiting,
-    startHandler,
-    cancelHandler,
+    startMatch,
+    cancelMatch,
   };
 };
 

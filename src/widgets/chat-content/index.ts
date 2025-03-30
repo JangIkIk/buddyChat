@@ -1,1 +1,1 @@
-export { default as ChatContent } from './ui'
+export { default } from './ui'
