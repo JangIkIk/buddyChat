@@ -5,7 +5,7 @@ import { randomMatch } from "@/entities/socket-random-match";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
 import { roomAlert } from '@/entities/socket-room-alert';
 import { chatMessage } from "@/entities/socket-chat-message";
-import { useMergeList } from '@/widgets/chat-content'
+import { useMergeList } from '@/shared/store/use-merge-list'
 
 type Match = boolean | null;
 
