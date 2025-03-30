@@ -1,9 +1,17 @@
-import { useRef } from 'react';
+// package & type
+import { useRef, ReactElement } from 'react';
+// slice
 import { useSendMessageOnEnter } from '../model/use-send-message-on-enter';
 import { useSendMessageOnClick } from '../model/use-send-message-on-click';
+// layer
 import Send from "@/shared/asset/send.svg?react";
 
-const ChatInput = () => {
+/**
+ * @FileDesc
+ * - 채팅 input UI
+ * - 전송 Button UI
+ */
+const ChatInput = ():ReactElement => {
   const chatRef = useRef<HTMLTextAreaElement>(null);
   const { enterHanlder, typingHandler, renderTyping } = useSendMessageOnEnter(chatRef);
   const { clickHandler } = useSendMessageOnClick(chatRef);
