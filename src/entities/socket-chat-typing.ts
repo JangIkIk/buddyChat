@@ -1,12 +1,12 @@
-import { EmptyCallback, RemoveListener } from "./types";
-type ReceivedTyping = { typing: boolean };
+import { type EmptyCallback, type DataCallback, type DataResponse } from "./types";
+type ReceivedTyping = {typing: boolean};
 
-type SendChatTyping = (typing: ReceivedTyping) => void;
-type ReciveChatTyping = (callback: (res: ReceivedTyping) => void) => void;
+type EmitSendChatTyping = (typing: boolean) => void;
+type OnReciveChatTyping = (callback: DataCallback<ReceivedTyping>) => void;
 type ChatTypingReturn = {
-  sendChatTyping: SendChatTyping;
-  reciveChatTyping: ReciveChatTyping;
-  removeListener: RemoveListener;
+  sendChatTyping: EmitSendChatTyping;
+  reciveChatTyping: OnReciveChatTyping;
+  removeListener: EmptyCallback;
 };
 
 /**
@@ -26,17 +26,17 @@ const chatTyping = (socket: GlobalSocket): ChatTypingReturn => {
     };
   }
 
-  const sendChatTyping: SendChatTyping = (typing) => {
+  const sendChatTyping: EmitSendChatTyping = (typing) => {
     socket.emit("chat-typing", typing);
   };
 
-  const reciveChatTyping: ReciveChatTyping = (callback) => {
-    socket.on("chat-typing", (res: ReceivedTyping) => {
+  const reciveChatTyping: OnReciveChatTyping = (callback) => {
+    socket.on("chat-typing", (res: DataResponse<ReceivedTyping>) => {
       callback(res);
     });
   };
 
-  const removeListener: RemoveListener = () => {
+  const removeListener: EmptyCallback = () => {
     socket.off("chat-typing", reciveChatTyping);
   };
 
