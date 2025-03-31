@@ -1,44 +1,34 @@
 import {
-  type BaseResponse,
+  type StatusResponse,
   type DataResponse,
-  type BaseCallback,
+  type StatusCallback,
   type DataCallback,
   type EmptyCallback,
-  type RemoveListener,
 } from "./types";
 
 type ChatMessage = {
   chatMessageIdx: number;
   chatMessage: string;
   chatTime: string;
-  sender: string;
+  senderId: string;
   nickName: string | null;
 };
 
-class ChatMessageMapper {
-  idx: ChatMessage["chatMessageIdx"];
-  chatMessageList: ChatMessage["chatMessage"][];
-  chatTime: ChatMessage["chatTime"];
-  sender: ChatMessage["sender"];
-  nickName: ChatMessage["nickName"];
+type ChatMessageMapper = {
+  idx: number;
+  chatMessageList: string[];
+  chatTime: string;
+  senderId: string;
+  nickName: string | null;
   type: "message";
+};
 
-  constructor(data: ChatMessage) {
-    this.idx = data.chatMessageIdx;
-    this.chatMessageList = [data.chatMessage];
-    this.chatTime = data.chatTime;
-    this.sender = data.sender;
-    this.nickName = data.nickName;
-    this.type = "message";
-  }
-}
-
-type SendChatMessage = (chatMessage: string, callback: BaseCallback) => void;
-type ReceiveChatMessage = (callback: DataCallback<ChatMessageMapper>) => void;
+type EmitSendChatMessage = (chatMessage: string, callback: StatusCallback) => void;
+type OnReceiveChatMessage = (callback: DataCallback<ChatMessageMapper>) => void;
 type ChatMessageReturn = {
-  sendChatMessage: SendChatMessage;
-  receiveChatMessage: ReceiveChatMessage;
-  removeListener: RemoveListener;
+  sendChatMessage: EmitSendChatMessage;
+  receiveChatMessage: OnReceiveChatMessage;
+  removeListener: EmptyCallback;
 };
 
 /**
@@ -57,20 +47,29 @@ const chatMessage = (socket: GlobalSocket): ChatMessageReturn => {
     };
   }
 
-  const sendChatMessage: SendChatMessage = (chatMessage, callback) => {
-    socket.emit("chat-message", chatMessage, (res: BaseResponse) => {
+  const sendChatMessage: EmitSendChatMessage = (chatMessage, callback) => {
+    socket.emit("chat-message", chatMessage, (res: StatusResponse) => {
       callback(res);
     });
   };
 
-  const receiveChatMessage: ReceiveChatMessage = (callback) => {
+  const receiveChatMessage: OnReceiveChatMessage = (callback) => {
     socket.on("chat-message", (res: DataResponse<ChatMessage>) => {
-      const mapperData = new ChatMessageMapper(res.data);
-      callback({ ...res, data: mapperData });
+
+      const mapperData:ChatMessageMapper = {
+        idx: res.data.chatMessageIdx,
+        chatMessageList: [res.data.chatMessage],
+        chatTime: res.data.chatTime,
+        senderId: res.data.senderId,
+        nickName: res.data.nickName,
+        type: "message",
+      };
+
+      callback({data:mapperData});
     });
   };
 
-  const removeListener: RemoveListener = () => {
+  const removeListener: EmptyCallback = () => {
     socket.off("chat-message", receiveChatMessage);
   };
 
