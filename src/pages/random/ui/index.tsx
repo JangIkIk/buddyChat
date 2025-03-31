@@ -1,5 +1,6 @@
 // type
 import { type ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 // slice
 import { useMatchOnEvents } from "../model/use-match-on-events";
 // layer
@@ -32,12 +33,22 @@ const Random = ():ReactElement => {
       {match ? (
         <div className="tw:h-full tw:flex tw:flex-col tw:p-4 tw:gap-1">
           <ChatContent />
-          {!isRoom ? (
+          {isRoom ? (
             <div className="tw:flex tw:gap-3 tw:items-center">
               <ChatInput />
               <ChatOutButton />
             </div>
-          ): <div>다시찾기 버튼</div>}
+          ): <div className='card tw:text-service-gray tw:text-center tw:p-2 tw:flex tw:flex-col tw:gap-1'>
+              <div>익명의 상대와 1 : 1 채팅이 종료되었습니다.</div>
+              <div>2025 - 01 - 01 18:02</div>
+              <div>채팅시간: 00:02</div>
+              <div className='tw:flex tw:gap-3 tw:justify-center'>
+                <Button intent={"select"} onClick={startMatch}>다시찾기</Button>
+                <Link to={"/"}>
+                <Button intent={"select"}>홈으로</Button>
+                </Link>
+              </div>
+            </div>}
         </div>
       ) : (
         <div className="tw:h-full tw:c-linear-base tw:flex tw:flex-col tw:justify-center tw:items-center tw:gap-3">
