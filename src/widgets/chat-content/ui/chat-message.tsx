@@ -13,9 +13,9 @@ import { useSocketConnection } from "@/shared/store/use-socket-connection";
  * - 
 */
 const ChatMessage = (props: ChatMessageMapper) => {
-  const { chatMessageList, chatTime, sender, nickName } = props;
+  const { chatMessageList, chatTime, senderId, nickName } = props;
   const { socket } = useSocketConnection();
-  const isSender:boolean | null = socket && socket.id === sender;
+  const isSender:boolean | null = socket && socket.id === senderId;
   return (
     <div className="tw:text-service-gray">
       {/* 송신자 본인은 닉네임을 숨김 */}
