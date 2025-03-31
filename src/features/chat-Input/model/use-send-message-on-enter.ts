@@ -38,14 +38,14 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>):
     if (chatRef.current.value.trim() !== "") {
       if (!isTyping) {
         setIsTyping(true);
-        sendChatTyping({typing:true});
+        sendChatTyping(true);
       }
 
       if (timerRef.current) clearTimeout(timerRef.current);
     } else {
       timerRef.current = window.setTimeout(() => {
         setIsTyping(false);
-        sendChatTyping({typing:false});
+        sendChatTyping(false);
       }, 2000);
     }
   };
@@ -59,8 +59,8 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>):
       !event.shiftKey &&
       chatMessageRegex(chatRef.current.value)
     ) {
-      sendChatTyping({typing:false});
-      setIsTyping(false)
+      sendChatTyping(false);
+      setIsTyping(false);
       sendChatMessage(chatRef.current.value, (res) => {
         switch (res.status) {
           case 200:
@@ -71,6 +71,7 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>):
             console.warn("cannot find the sendChatMessage(keyBoard) status code");
         }
       });
+      chatRef.current.value = "";
     }
   };
 
@@ -78,7 +79,8 @@ const useSendMessageOnEnter = ( chatRef: RefObject<HTMLTextAreaElement | null>):
     if (!socket) return;
 
     reciveChatTyping((res) => {
-      setRenderTyping(res.typing);
+      const { data } = res;
+      setRenderTyping(data.typing);
     });
 
     return () => {
