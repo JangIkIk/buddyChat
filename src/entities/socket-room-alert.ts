@@ -1,11 +1,18 @@
-import { type DataCallback, type DataResponse, type RemoveListener, type EmptyCallback } from './types';
+import { type DataCallback, type DataResponse, type EmptyCallback } from './types';
 
 type JoinAlert = {
     joinTime: string;
     nickName: string | null;
     roomName: string | null;
-    type: "join";   
+    type: 'join';   
 };
+
+type JoinAlertMapper = {
+    joinTime: string;
+    nickName: string | null;
+    roomName: string | null;
+    type: "join";
+}
 
 type OutAlert = {
     outTime: string;
@@ -15,43 +22,30 @@ type OutAlert = {
     type: 'out';
 };
 
-class JoinAlertMapper {
-    joinTime: JoinAlert["joinTime"];
-    nickName: JoinAlert["nickName"];
-    roomName: JoinAlert["roomName"];
-    type: JoinAlert["type"];
+type OutAlertMapper = {
+    outTime: string;
+    chatTime: string;
+    nickName: string | null;
+    socketId: string;
+    type: 'out';
+}
 
-    constructor( data: JoinAlert){
-        this.joinTime = data.joinTime;
-        this.nickName = data.nickName;
-        this.roomName = data.roomName;
-        this.type = data.type;
-    }
+type MidnighAlert = {
+    midnight: string;
+    type: 'midnight';
+}
 
-};
+type MidnighMapper = {
+    midnight: string;
+    type: 'midnight';
+}
 
-class OutAlertMapper {
-    outTime: OutAlert["outTime"];
-    chatTime: OutAlert["chatTime"];
-    nickName: OutAlert["nickName"];
-    socketId: OutAlert["socketId"];
-    type: OutAlert["type"];
 
-    constructor( data: OutAlert){
-        this.outTime = data.outTime;
-        this.chatTime = data.chatTime;
-        this.nickName = data.nickName;
-        this.socketId = data.socketId;
-        this.type = data.type;
-    }
-
-};
-
-type ReceiveRoomAlert = ( callback: DataCallback<JoinAlertMapper | OutAlertMapper> ) => void;
+type ReceiveRoomAlert = ( callback: DataCallback<JoinAlertMapper | OutAlertMapper | MidnighMapper> ) => void;
 type RoomAlertReturn = {
     receiveRoomAlert: ReceiveRoomAlert
-    removeListener: RemoveListener;
-}
+    removeListener: EmptyCallback;
+};
 
 /**
  * @FileDesc
@@ -66,13 +60,41 @@ const roomAlert = ( socket: GlobalSocket ):RoomAlertReturn => {
     };
 
     const receiveRoomAlert:ReceiveRoomAlert = ( callback ) => {
-        socket.on("room-alert", ( res: DataResponse<JoinAlert | OutAlert> ) => {
-            const mapperData = res.data.type === "join" ? new JoinAlertMapper(res.data) : new OutAlertMapper(res.data);
-            callback({...res, data: mapperData})
+        socket.on("room-alert", ( res: DataResponse<JoinAlert | OutAlert | MidnighAlert> ) => {
+            
+            let mapperData;
+
+            switch(res.data.type){
+                case "join":
+                    mapperData = {
+                        joinTime: res.data.joinTime,
+                        nickName: res.data.nickName,
+                        roomName: res.data.roomName,
+                        type: res.data.type,
+                    }
+                    break;
+                case "out":
+                    mapperData = {
+                        outTime: res.data.outTime,
+                        chatTime: res.data.chatTime,
+                        nickName: res.data.nickName,
+                        socketId: res.data.socketId,
+                        type: res.data.type,
+                    }
+                    break;
+                case "midnight":
+                    mapperData = {
+                        midnight: res.data.midnight,
+                        type: res.data.type,
+                    }
+                    break;
+            };
+
+            callback({data: mapperData})
         })
     };
 
-    const removeListener:RemoveListener = () => {
+    const removeListener:EmptyCallback = () => {
         socket.off("room-alert", receiveRoomAlert);
     };
 
