@@ -17,6 +17,7 @@ type MergeListAction = {
         saveChatMessage: ( chatContent: ChatMessageMapper) => void;
         saveAlert: ( alert: JoinAlert | OutAlert ) => void;
         checkRoom: () => void;
+        reSet: () => void;
     };
 };
 
@@ -36,7 +37,7 @@ const useMergeList = create<MergeListState & MergeListAction>((set)=>({
                 const lastValue:MergeList = state.mergeList[lastIndex];
 
                 // message타입이 아니거나, sender가 같지않거나, 시간이 같지않거나
-                if(lastValue.type !== "message" || lastValue.sender !== chatContent.sender || timeStamp(lastValue.chatTime, "HH:mm") !== timeStamp(chatContent.chatTime, "HH:mm")){
+                if(lastValue.type !== "message" || lastValue.senderId !== chatContent.senderId || timeStamp(lastValue.chatTime, "HH:mm") !== timeStamp(chatContent.chatTime, "HH:mm")){
                     return {mergeList: [...state.mergeList, chatContent]};
                 }
 
@@ -59,6 +60,9 @@ const useMergeList = create<MergeListState & MergeListAction>((set)=>({
         },
         checkRoom: () => {
             set(state => ({isRoom: !state.isRoom}));
+        },
+        reSet: () => {
+            set({mergeList: []})
         }
     },
 }));
