@@ -1,18 +1,21 @@
 import {
-  type BaseResponse,
-  type BaseCallback,
-  type RemoveListener,
+  type StatusResponse,
+  type DataResponse,
   type EmptyCallback,
+  type StatusCallback,
+  type DataCallback,
 } from "./types";
 
-type ConnectMatch = (callback: BaseCallback) => void;
-type DisconnectMatch = (callback: BaseCallback) => void;
-type ReceiveMatchTimeout = (callback: BaseCallback) => void;
+type MatchTimeout = {type: "timeout"}
+type EmitConnectMatch = (callback: StatusCallback) => void;
+type EmitDisconnectMatch = (callback: StatusCallback) => void;
+type OnReceiveMatchTimeout = (callback: DataCallback<MatchTimeout>) => void;
+
 type RandomMatchReturn = {
-  connectMatch: ConnectMatch;
-  disconnectMatch: DisconnectMatch;
-  receiveMatchTimeout: ReceiveMatchTimeout;
-  removeListener: RemoveListener;
+  connectMatch: EmitConnectMatch;
+  disconnectMatch: EmitDisconnectMatch;
+  receiveMatchTimeout: OnReceiveMatchTimeout;
+  removeListener: EmptyCallback;
 };
 
 /**
@@ -34,25 +37,25 @@ const randomMatch = (socket: GlobalSocket): RandomMatchReturn => {
     };
   }
 
-  const connectMatch: ConnectMatch = (callback) => {
-    socket.emit("match-start", (res: BaseResponse) => {
+  const connectMatch: EmitConnectMatch = (callback) => {
+    socket.emit("match-start", (res: StatusResponse) => {
       callback(res);
     });
   };
 
-  const disconnectMatch: DisconnectMatch = (callback) => {
-    socket.emit("match-cancel", (res: BaseResponse) => {
+  const disconnectMatch: EmitDisconnectMatch = (callback) => {
+    socket.emit("match-cancel", (res: StatusResponse) => {
       callback(res);
     });
   };
 
-  const receiveMatchTimeout: ReceiveMatchTimeout = (callback) => {
-    socket.on("match-result", (res: BaseResponse) => {
+  const receiveMatchTimeout: OnReceiveMatchTimeout = (callback) => {
+    socket.on("match-result", (res: DataResponse<MatchTimeout> ) => {
       callback(res);
     });
   };
 
-  const removeListener: RemoveListener = () => {
+  const removeListener: EmptyCallback = () => {
     socket.off("match-result", receiveMatchTimeout);
   };
 
