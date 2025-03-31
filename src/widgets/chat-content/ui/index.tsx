@@ -12,6 +12,7 @@ import { useSocketConnection } from "@/shared/store/use-socket-connection";
 const ChatContent = () => {
   const { socket } = useSocketConnection();
   const mergeList = useMergeList((state) => state.mergeList);
+  
   return (
     <div className="tw:h-full tw:flex tw:flex-col tw:gap-5 tw:c-bg-theme-strong tw:overflow-y-scroll">
       {socket && mergeList.map((item, idx) => {
@@ -33,7 +34,7 @@ const ChatContent = () => {
           // 퇴장알람 (UI컴포넌트 분리필요)
           case "out":
             if(socket.id === item.socketId){
-              break;
+              return;
             }
             return (
               <div
