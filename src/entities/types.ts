@@ -1,22 +1,23 @@
-interface BaseResponse {
+interface StatusResponse {
   status: number;
   message: string;
-}
+};
 
-interface DataResponse<T> extends BaseResponse {
+interface DataResponse<T>{ 
   data: T;
-}
+};
+
 
 type EmptyCallback = () => void;
-type RemoveListener = () => void;
-type BaseCallback = (res: BaseResponse) => void;
-type DataCallback<T> = (res: DataResponse<T>) => void;
+type DefaultCallback<T> = (arg: T) => void;
+type StatusCallback = ( arg: StatusResponse ) => void;
+type DataCallback<T> = ( arg: DataResponse<T> ) => void;
 
 export {
-  type BaseResponse,
+  type StatusResponse,
   type DataResponse,
-  type BaseCallback,
-  type DataCallback,
   type EmptyCallback,
-  type RemoveListener,
+  type DefaultCallback,
+  type StatusCallback,
+  type DataCallback,
 };
