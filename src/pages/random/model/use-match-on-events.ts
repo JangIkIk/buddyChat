@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 // layer
 import { randomMatch } from "@/entities/socket-random-match";
 import { useSocketConnection } from "@/shared/store/use-socket-connection";
-import { roomAlert } from '@/entities/socket-room-alert';
+import { roomAlert } from "@/entities/socket-room-alert";
 import { chatMessage } from "@/entities/socket-chat-message";
-import { useMergeList } from '@/shared/store/use-merge-list'
+import { useMergeList } from "@/shared/store/use-merge-list";
+import { roomLeave } from '@/entities/socket-room-leave';
 
 type Match = boolean | null;
 
 type MatchOnEventsReturn = {
-  match: Match,
-  waiting: boolean,
-  startMatch: () => void,
-  cancelMatch: () => void,
+  match: Match;
+  waiting: boolean;
+  startMatch: () => void;
+  cancelMatch: () => void;
 };
 
 /**
@@ -23,27 +24,63 @@ type MatchOnEventsReturn = {
  */
 
 const useMatchOnEvents = (): MatchOnEventsReturn => {
-
   const [match, setMatch] = useState<Match>(null);
   const [waiting, setWaiting] = useState<boolean>(false);
 
-  const { socket } = useSocketConnection();
-  const mergeAction = useMergeList( state => state.action);
+  const { socket, socketAction } = useSocketConnection();
+  const mergeAction = useMergeList((state) => state.action);
   const isRoom = useMergeList((state) => state.isRoom);
+  const checkRoom = useMergeList( state => state.action.checkRoom);
+  const { sendRoomLeave } = roomLeave(socket);
 
-  const { connectMatch, disconnectMatch, receiveMatchTimeout, removeListener: randomMatchRemove } = randomMatch(socket); 
-  const { receiveRoomAlert, removeListener: roomAlertRemove } = roomAlert(socket);
+  const {
+    connectMatch,
+    disconnectMatch,
+    receiveMatchTimeout,
+    removeListener: randomMatchRemove,
+  } = randomMatch(socket);
+  const { receiveRoomAlert, removeListener: roomAlertRemove } =
+    roomAlert(socket);
   const { receiveChatMessage, removeListener } = chatMessage(socket);
 
-  
+  /*
+    현재 수정이 필요한 부분
+
+    채팅방을 페이지 이동으로 인해서 나가고,
+    이로인해서 채팅방이 종료가 된다
+    이후 다시 랜덤채팅 페이지로 가서 랜덤채팅을 진행하면
+    데이터 입력이 중복으로 이루어지는데, 이게 초반 알림뿐아니라
+    동적 메세지또한 중복값이 점점늘어남
+    여기서 예상할 수 있는것은, 렌더링 문제는 아닌것같고,
+    이벤트리스너 중복등록인해서?
+    chat-message 컴포넌트도 의심이 필요한부분임
+  */
+
   const startMatch = () => {
+    if(!socket){
+      // socketAction.connect("/random"); // loacl
+      socketAction.connect("/"); // server
+      return;
+    }
     connectMatch((res) => {
       if (res.status === 201) {
-        setWaiting(true); 
+        setWaiting(true);
         setMatch(false);
       }
     });
   };
+
+  useEffect(()=>{
+    if(!socket) return;
+    if(!isRoom){
+      startMatch();
+    }
+
+    return () => {
+      sendRoomLeave();
+      checkRoom();    
+    }
+  },[socket])
 
   const cancelMatch = () => {
     setMatch(null);
@@ -52,15 +89,13 @@ const useMatchOnEvents = (): MatchOnEventsReturn => {
     });
   };
 
+
   useEffect(() => {
     if (!socket) return;
-    // 페이지 이동시에 socket이 안끊어지므로 랜덤채팅페이지 다시넘어오면 매치가 자동으로 발생
-    // socket끊는것을 고민해보자
-    startMatch();
-
+  
     receiveMatchTimeout((res) => {
       const { data } = res;
-      switch(data.type){
+      switch (data.type) {
         case "timeout":
           setMatch(false);
           setWaiting(false);
@@ -69,17 +104,18 @@ const useMatchOnEvents = (): MatchOnEventsReturn => {
           console.warn("cannot find the receiveMatchTimeout type");
       }
     });
-    
-    receiveRoomAlert((res)=>{
+
+    receiveRoomAlert((res) => {
       const { data } = res;
-      switch(data.type){
+      switch (data.type) {
         case "join":
-          if(!isRoom) mergeAction.reSet();
+          if (!isRoom) mergeAction.reSet();
           mergeAction.checkRoom();
           mergeAction.saveAlert(data);
           setMatch(true);
           break;
         case "out":
+          console.log("룸아웃")
           mergeAction.saveAlert(data);
           mergeAction.checkRoom();
           break;
@@ -99,14 +135,14 @@ const useMatchOnEvents = (): MatchOnEventsReturn => {
           break;
         default:
           console.warn("cannot find the receiveChatMessage type");
-        }
+      }
     });
 
     return () => {
       randomMatchRemove();
       roomAlertRemove();
       removeListener();
-    }
+    };
   }, [socket]);
 
   return {
