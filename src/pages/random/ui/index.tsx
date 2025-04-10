@@ -9,7 +9,7 @@ import { ChatInput } from "@/features/chat-Input";
 import { ChatOutButton } from "@/features/chat-out-button";
 import { Button } from "@/shared/ui/Button";
 import { Loading } from "@/shared/ui/Loading";
-import { useSocketConnection } from "@/shared/store/use-socket-connection";
+// import { useSocketConnection } from "@/shared/store/use-socket-connection";
 import { useMergeList } from "@/shared/store/use-merge-list";
 
 /**
@@ -23,8 +23,10 @@ const Random = ():ReactElement => {
 
   const { match, waiting, startMatch, cancelMatch } = useMatchOnEvents();
   
-  const { socketAction } = useSocketConnection();
-  const connectSocket = () => socketAction.connect("/random");
+  // 채팅방 나가고 재연결시 문제 테스트필요
+  // 처리한결과 서버랑 비교 
+  // const socketAction = useSocketConnection( state => state.socketAction);
+  // const connectSocket = () => socketAction.connect("/random");
   const isRoom = useMergeList((state) => state.isRoom);
 
   return (
@@ -58,7 +60,7 @@ const Random = ():ReactElement => {
               <h1 className="tw:text-xl">
                 익명의 상대와 1 : 1 채팅을 시작하세요
               </h1>
-              <Button intent={"select"} onClick={connectSocket}>
+              <Button intent={"select"} onClick={startMatch}>
                 매칭 시작하기
               </Button>
             </>
