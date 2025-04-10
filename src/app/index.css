@@ -1,0 +1,138 @@
+@import "tailwindcss" prefix(tw);
+@import "./variable.css";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* css속성에서 theme변수를 참조할수 없는문제로 root변수의 값을 다시 할당 */
+@theme {
+  /* 서비스 색상 */
+  --color-service-primary: var(--color-service-primary);
+  --color-service-secondary: var(--color-service-secondary);
+  --color-service-white: var(--color-service-white);
+  --color-service-gray: var(--color-service-gray);
+  --color-service-black: var(--color-service-black);
+  --color-service-green: var(--color-service-green);
+  --color-service-red: var(--color-service-red);
+
+  --color-service-linear1: var(--color-service-linear1);
+
+  --color-service-light1: var(--color-service-light1);
+  --color-service-light2: var(--color-service-light2);
+  --color-service-light3: var(--color-service-light3);
+  --color-service-dark1: var(--color-service-dark1);
+  --color-service-dark2: var(--color-service-dark2);
+  --color-service-dark3: var(--color-service-dark3);
+
+  --animate-dotPing: dotsPing 2s infinite steps(3);
+  /*
+    [반응형]
+    Html: 기본값 16px 기준
+    sm: 40rem(640px) 이상 ~ max-sm: 이하
+    md: 48rem(768px) 이상 ~ max-md: 이하
+    lg: 64rem(1024px) 이상 ~ max-lg: 이하
+    xl: 80rem(1280px) 이상 ~ max-xl: 이하
+    2xl: 96rem(1536px) 이상 ~ max-2xl: 이하
+*/
+
+  /* 
+    [container]
+    @3xs	16rem (256px)	@container (width >= 16rem) { … }
+    @2xs	18rem (288px)	@container (width >= 18rem) { … }
+    @xs	    20rem (320px)	@container (width >= 20rem) { … }
+    @sm	    24rem (384px)	@container (width >= 24rem) { … }
+    @md	    28rem (448px)	@container (width >= 28rem) { … }
+    @lg	    32rem (512px)	@container (width >= 32rem) { … }
+    @xl	    36rem (576px)	@container (width >= 36rem) { … }
+    @2xl	42rem (672px)	@container (width >= 42rem) { … }
+    @3xl	48rem (768px)	@container (width >= 48rem) { … }
+    @4xl	56rem (896px)	@container (width >= 56rem) { … }
+    @5xl	64rem (1024px)	@container (width >= 64rem) { … }
+    @6xl	72rem (1152px)	@container (width >= 72rem) { … }
+    @7xl	80rem (1280px)	@container (width >= 80rem) { … }
+
+   */
+
+  /* 글자크기, 글자굵기, 글자간격, 줄간격 */
+  /* --spacing: 0.25rem(4px); */
+  /* shadow */
+  /* animation */
+  /* https://github.com/tailwindlabs/tailwindcss/issues/16568 */
+}
+
+@layer base {
+  body {
+    @apply tw:font-mono tw:antialiased tw:bg-service-light1;
+    @variant dark {
+      @apply tw:bg-service-dark1;
+    }
+  }
+}
+
+@utility c-bg-theme-strong {
+  @apply tw:bg-service-light1;
+  @variant dark {
+    @apply tw:bg-service-dark1;
+  }
+}
+@utility c-bg-theme-normal {
+  @apply tw:bg-service-light2;
+  @variant dark {
+    @apply tw:bg-service-dark2;
+  }
+}
+@utility c-bg-theme-weak {
+  @apply tw:bg-service-light3;
+  @variant dark {
+    @apply tw:bg-service-dark3;
+  }
+}
+@utility c-text-theme-base {
+  @apply tw:text-service-black;
+  @variant dark {
+    @apply tw:text-service-white;
+  }
+}
+
+@utility c-shadow-bt {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@utility c-linear-base {
+  background: linear-gradient(
+    180deg,
+    var(--color-service-primary) 00%,
+    var(--color-service-light1) 30%,
+    var(--color-service-light1) 100%
+  );
+  @variant dark {
+    background: linear-gradient(
+    180deg,
+    var(--color-service-primary) 00%,
+    var(--color-service-dark1) 30%,
+    var(--color-service-dark1) 100%
+  );
+  }
+}
+
+
+@layer components {
+  .card{
+    @apply tw:border-1 tw:border-service-secondary tw:rounded-lg;
+  }
+}
+
+/* 
+https://github.com/tailwindlabs/tailwindcss/issues/16829
+접두사에 인식되지않는 문제로 인해 기존 유틸클래스를 재정의
+ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg); /* 360도 회전 */
+  }
+}
+
+@keyframes dotsPing {
+  0% { content: "."}
+  22% { content: ".."}
+  44% { content: "..."}
+  66% { content: "...."}
+}

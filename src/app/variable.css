@@ -1,0 +1,22 @@
+
+:root{
+
+    --color-service-primary: oklch(60.7% 0.213 262.2);
+    --color-service-secondary: oklch(69.7% 0.16 258.2);
+    --color-service-white: oklch(98.5% 0 0);
+    --color-service-gray: oklch(70.2% 0.025 285.7);
+    --color-service-black: oklch(13.7% 0.009 285.1);
+    --color-service-green: oklch(78.5% 0.216 149.6);
+    --color-service-red: oklch(62.2% 0.242 29.8);
+  
+    --color-service-linear1: oklch(70.2% 0.025 285.7);
+  
+    --color-service-light1: oklch(98.5% 0 0);
+    --color-service-light2: oklch(91.7% 0.007 286.3);
+    --color-service-light3: oklch(70.2% 0.025 285.7 / 0.2);
+    --color-service-dark1: oklch(17% 0.006 285.7);
+    --color-service-dark2: oklch(20.7% 0.01 285.5);
+    --color-service-dark3: oklch(27.1% 0.011 285.6 / 0.2);
+
+    --header-h-base: 3.125rem;
+  }
