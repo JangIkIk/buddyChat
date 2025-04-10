@@ -8,7 +8,7 @@ type SocketConnectionState = {
 
 type SocketConnectionAction = {
   socketAction: {
-    connect: ( nameSpace:string ) => void;
+    connect: ( nameSpace:string) => void;
   };
 } & {};
 
@@ -24,13 +24,14 @@ const useSocketConnection = create<SocketConnectionState & SocketConnectionActio
     connect: (nameSpace) => {
       // socket 연결요청
       const newSocket = io(`${import.meta.env.VITE_WOCKET_API}${nameSpace}`, {
-        path: '/chat', // -> 로컬
-        // path: "" //-> 서버
+        // path: '/chat', // -> 로컬
+        path: "", //-> 서버
         transports: ["websocket"],
       });
 
       // socket 연결 성공시
       newSocket.on("connect", () => {
+        console.log("socketID:",newSocket.id)
         set({ socket: newSocket });
       });
 

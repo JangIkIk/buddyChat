@@ -16,7 +16,7 @@ const roomLeave = ( socket: GlobalSocket ): RoomLeaveReturn => {
         return { sendRoomLeave: emptyCallback };
     }
 
-    const sendRoomLeave = () => {
+    const sendRoomLeave:EmptyCallback = () => {
         socket.emit("room-outside");
     };
 
